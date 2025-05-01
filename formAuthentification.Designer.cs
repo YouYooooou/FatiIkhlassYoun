@@ -188,5 +188,10 @@
         private Label txtPassword;
         private Label txtUsername;
         private CuoreUI.Controls.cuiCheckbox btnShowP;
+
+        public formAuthentification(Label txtPassword)
+        {
+            this.txtPassword = txtPassword;
+        }
     }
 }

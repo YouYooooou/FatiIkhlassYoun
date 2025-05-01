@@ -25,13 +25,13 @@ namespace FatiIkhlassYoun
             try
             {
                 // Paramètres de l'envoi d'email
-                MailMessage mail = new MailMessage();
+                MailMessage mail = new();
                 mail.From = new MailAddress("fatimazahrabendoukali2@gmail.com"); 
                 mail.To.Add(email);
                 mail.Subject = "Réinitialisation de votre mot de passe";
                 mail.Body = "Cliquez sur ce lien pour réinitialiser votre mot de passe : ";
 
-                SmtpClient smtp = new SmtpClient("smtp.gmail.com", 587);
+                SmtpClient smtp = new("smtp.gmail.com", 587);
                 smtp.Credentials = new NetworkCredential("fatimazahrabendoukali2@gmail.com", "yfxu enxi ioos yxem");
                 smtp.EnableSsl = true;
                 smtp.Send(mail);

@@ -40,7 +40,6 @@
             btnForgotPassword = new CuoreUI.Controls.cuiButton();
             txtUsername = new Label();
             cuiButton2 = new CuoreUI.Controls.cuiButton();
-            label2 = new Label();
             cuiBorder1.SuspendLayout();
             SuspendLayout();
             // 
@@ -48,12 +47,12 @@
             // 
             labelTitre.AutoSize = true;
             labelTitre.BackColor = Color.WhiteSmoke;
-            labelTitre.Font = new Font("Microsoft Sans Serif", 18F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            labelTitre.Font = new Font("Microsoft Sans Serif", 16F, FontStyle.Bold, GraphicsUnit.Point, 0);
             labelTitre.ForeColor = Color.Black;
-            labelTitre.Location = new Point(78, 50);
+            labelTitre.Location = new Point(37, 48);
             labelTitre.Margin = new Padding(6, 0, 6, 0);
             labelTitre.Name = "labelTitre";
-            labelTitre.Size = new Size(1246, 82);
+            labelTitre.Size = new Size(1113, 73);
             labelTitre.TabIndex = 0;
             labelTitre.Text = "PROJECT MANAGEMENT SYSTEM";
             // 
@@ -84,7 +83,6 @@
             // cuiBorder1
             // 
             cuiBorder1.BackColor = Color.WhiteSmoke;
-            cuiBorder1.Controls.Add(label2);
             cuiBorder1.Controls.Add(label1);
             cuiBorder1.Controls.Add(textBox2);
             cuiBorder1.Controls.Add(textBox1);
@@ -94,14 +92,14 @@
             cuiBorder1.Controls.Add(btnForgotPassword);
             cuiBorder1.Controls.Add(txtUsername);
             cuiBorder1.Controls.Add(txtPassword);
-            cuiBorder1.Location = new Point(404, 104);
-            cuiBorder1.Margin = new Padding(6, 6, 6, 6);
+            cuiBorder1.Location = new Point(342, 80);
+            cuiBorder1.Margin = new Padding(6);
             cuiBorder1.Name = "cuiBorder1";
             cuiBorder1.OutlineThickness = 1F;
             cuiBorder1.PanelColor = Color.WhiteSmoke;
             cuiBorder1.PanelOutlineColor = Color.Black;
             cuiBorder1.Rounding = new Padding(10);
-            cuiBorder1.Size = new Size(1206, 970);
+            cuiBorder1.Size = new Size(1329, 994);
             cuiBorder1.TabIndex = 3;
             cuiBorder1.Paint += cuiBorder1_Paint;
             // 
@@ -109,12 +107,12 @@
             // 
             label1.AutoSize = true;
             label1.BackColor = Color.Transparent;
-            label1.Font = new Font("Microsoft Sans Serif", 18F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            label1.Font = new Font("Microsoft Sans Serif", 16F, FontStyle.Bold, GraphicsUnit.Point, 0);
             label1.ForeColor = Color.Black;
-            label1.Location = new Point(510, 236);
+            label1.Location = new Point(459, 230);
             label1.Margin = new Padding(6, 0, 6, 0);
             label1.Name = "label1";
-            label1.Size = new Size(264, 82);
+            label1.Size = new Size(237, 73);
             label1.TabIndex = 12;
             label1.Text = "LOGIN";
             // 
@@ -148,7 +146,7 @@
             button1.Font = new Font("Segoe UI", 16F, FontStyle.Bold, GraphicsUnit.Point, 0);
             button1.ForeColor = Color.White;
             button1.Location = new Point(730, 760);
-            button1.Margin = new Padding(6, 6, 6, 6);
+            button1.Margin = new Padding(6);
             button1.Name = "button1";
             button1.Size = new Size(346, 121);
             button1.TabIndex = 9;
@@ -207,7 +205,7 @@
             btnForgotPassword.ImageOffset = new Point(0, 0);
             btnForgotPassword.ImageTint = Color.WhiteSmoke;
             btnForgotPassword.Location = new Point(46, 760);
-            btnForgotPassword.Margin = new Padding(6, 6, 6, 6);
+            btnForgotPassword.Margin = new Padding(6);
             btnForgotPassword.Name = "btnForgotPassword";
             btnForgotPassword.NormalBackground = Color.WhiteSmoke;
             btnForgotPassword.NormalOutline = Color.Empty;
@@ -257,8 +255,8 @@
             cuiButton2.ImageExpand = new Point(0, 0);
             cuiButton2.ImageOffset = new Point(0, 0);
             cuiButton2.ImageTint = Color.White;
-            cuiButton2.Location = new Point(1908, 23);
-            cuiButton2.Margin = new Padding(6, 6, 6, 6);
+            cuiButton2.Location = new Point(2165, -2);
+            cuiButton2.Margin = new Padding(6);
             cuiButton2.Name = "cuiButton2";
             cuiButton2.NormalBackground = Color.White;
             cuiButton2.NormalOutline = Color.Empty;
@@ -273,29 +271,16 @@
             cuiButton2.TextOffset = new Point(0, 0);
             cuiButton2.Click += cuiButton2_Click;
             // 
-            // label2
-            // 
-            label2.AutoSize = true;
-            label2.BackColor = Color.Transparent;
-            label2.Font = new Font("Microsoft Sans Serif", 18F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            label2.ForeColor = Color.Black;
-            label2.Location = new Point(808, 236);
-            label2.Margin = new Padding(6, 0, 6, 0);
-            label2.Name = "label2";
-            label2.Size = new Size(264, 82);
-            label2.TabIndex = 13;
-            label2.Text = "LOGIN";
-            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(20F, 48F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.White;
-            ClientSize = new Size(2048, 1183);
+            ClientSize = new Size(2264, 1183);
             Controls.Add(cuiButton2);
             Controls.Add(cuiBorder1);
             FormBorderStyle = FormBorderStyle.None;
-            Margin = new Padding(6, 6, 6, 6);
+            Margin = new Padding(6);
             Name = "Form1";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "ikhlasse";
@@ -318,6 +303,5 @@
         private TextBox textBox1;
         private TextBox textBox2;
         private Label label1;
-        private Label label2;
     }
 }

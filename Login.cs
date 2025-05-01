@@ -67,7 +67,7 @@ namespace FatiIkhlassYoun
 
             string connectionString = @"Data Source=DESKTOP-78OLGDN;Initial Catalog=ProjectManagementSystem;Integrated Security=True";
 
-            using (SqlConnection conn = new SqlConnection(connectionString))
+            using (SqlConnection conn = new(connectionString))
             {
                 try
                 {
@@ -80,7 +80,7 @@ namespace FatiIkhlassYoun
                             AND PasswordHash COLLATE SQL_Latin1_General_CP1_CS_AS = @password 
                             AND IsActive = 1";
 
-                    SqlCommand cmd = new SqlCommand(query, conn);
+                    SqlCommand cmd = new(query, conn);
                     cmd.Parameters.AddWithValue("@username", username);
                     cmd.Parameters.AddWithValue("@password", password);
                     // à sécuriser plus tard
@@ -93,7 +93,7 @@ namespace FatiIkhlassYoun
 
                         reader.Close();
 
-                        MenuDeApp menu = new MenuDeApp();
+                        MenuDeApp menu = new();
                         menu.Show();
                         this.Hide();
                     }
@@ -115,7 +115,7 @@ namespace FatiIkhlassYoun
             using (SHA256 sha256 = SHA256.Create())
             {
                 byte[] bytes = sha256.ComputeHash(Encoding.UTF8.GetBytes(password));
-                StringBuilder builder = new StringBuilder();
+                StringBuilder builder = new();
                 foreach (byte b in bytes)
                 {
                     builder.Append(b.ToString("x2")); // Conversion en hexa
@@ -142,7 +142,7 @@ namespace FatiIkhlassYoun
 
         private void btnForgotPassword_Click(object sender, EventArgs e)
         {
-            FormMotDePasseOublie formMdp = new FormMotDePasseOublie();
+            FormMotDePasseOublie formMdp = new();
             formMdp.ShowDialog();
         }
 

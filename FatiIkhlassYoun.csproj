@@ -9,7 +9,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="ClosedXML" Version="0.104.2" />
     <PackageReference Include="CuoreUI.Winforms" Version="2025.3.3" />
+    <PackageReference Include="EPPlus" Version="8.0.2" />
+    <PackageReference Include="iTextSharp" Version="5.5.13.4" />
     <PackageReference Include="Jenga.NET" Version="4.0.0" />
   </ItemGroup>
 
