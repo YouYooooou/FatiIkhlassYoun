@@ -216,7 +216,6 @@ namespace FatiIkhlassYoun
             string phone = "2126XXXXXXX"; // Numéro sans le +
             string message = "Rapports générés pour les projets suivants :\n\n" + string.Join("\n", nomsDeRapports);
 
-            string url = "https://wa.me/" + phone + "?text=" + Uri.EscapeDataString(message);
 
             Process.Start(new ProcessStartInfo
             {
