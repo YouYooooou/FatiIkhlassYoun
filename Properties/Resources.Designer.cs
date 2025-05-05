@@ -63,6 +63,16 @@ namespace FatiIkhlassYoun.Properties {
         /// <summary>
         ///   Recherche une ressource localisée de type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap icons8_add {
+            get {
+                object obj = ResourceManager.GetObject("icons8-add", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une ressource localisée de type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap icons8_add_48 {
             get {
                 object obj = ResourceManager.GetObject("icons8-add-48", resourceCulture);
@@ -76,6 +86,16 @@ namespace FatiIkhlassYoun.Properties {
         internal static System.Drawing.Bitmap icons8_admin_100 {
             get {
                 object obj = ResourceManager.GetObject("icons8-admin-100", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une ressource localisée de type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap icons8_cancel_50 {
+            get {
+                object obj = ResourceManager.GetObject("icons8-cancel-50", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
@@ -136,6 +156,46 @@ namespace FatiIkhlassYoun.Properties {
         internal static System.Drawing.Bitmap icons8_modify {
             get {
                 object obj = ResourceManager.GetObject("icons8-modify", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une ressource localisée de type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap icons8_notification_50 {
+            get {
+                object obj = ResourceManager.GetObject("icons8-notification-50", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une ressource localisée de type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap icons8_refresh_32 {
+            get {
+                object obj = ResourceManager.GetObject("icons8-refresh-32", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une ressource localisée de type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap icons8_refresh_321 {
+            get {
+                object obj = ResourceManager.GetObject("icons8-refresh-321", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une ressource localisée de type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap icons8_refresh_322 {
+            get {
+                object obj = ResourceManager.GetObject("icons8-refresh-322", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

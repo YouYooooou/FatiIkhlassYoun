@@ -92,14 +92,14 @@
             cuiBorder1.Controls.Add(btnForgotPassword);
             cuiBorder1.Controls.Add(txtUsername);
             cuiBorder1.Controls.Add(txtPassword);
-            cuiBorder1.Location = new Point(342, 80);
+            cuiBorder1.Location = new Point(524, 95);
             cuiBorder1.Margin = new Padding(6);
             cuiBorder1.Name = "cuiBorder1";
             cuiBorder1.OutlineThickness = 1F;
             cuiBorder1.PanelColor = Color.WhiteSmoke;
             cuiBorder1.PanelOutlineColor = Color.Black;
             cuiBorder1.Rounding = new Padding(10);
-            cuiBorder1.Size = new Size(1329, 994);
+            cuiBorder1.Size = new Size(1309, 979);
             cuiBorder1.TabIndex = 3;
             cuiBorder1.Paint += cuiBorder1_Paint;
             // 
@@ -204,7 +204,7 @@
             btnForgotPassword.ImageExpand = new Point(0, 0);
             btnForgotPassword.ImageOffset = new Point(0, 0);
             btnForgotPassword.ImageTint = Color.WhiteSmoke;
-            btnForgotPassword.Location = new Point(46, 760);
+            btnForgotPassword.Location = new Point(44, 707);
             btnForgotPassword.Margin = new Padding(6);
             btnForgotPassword.Name = "btnForgotPassword";
             btnForgotPassword.NormalBackground = Color.WhiteSmoke;
@@ -215,7 +215,7 @@
             btnForgotPassword.PressedImageTint = Color.WhiteSmoke;
             btnForgotPassword.PressedOutline = Color.WhiteSmoke;
             btnForgotPassword.Rounding = new Padding(8);
-            btnForgotPassword.Size = new Size(322, 100);
+            btnForgotPassword.Size = new Size(322, 160);
             btnForgotPassword.TabIndex = 7;
             btnForgotPassword.TextOffset = new Point(0, 0);
             btnForgotPassword.Click += btnForgotPassword_Click;
@@ -277,8 +277,8 @@
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.White;
             ClientSize = new Size(2264, 1183);
-            Controls.Add(cuiButton2);
             Controls.Add(cuiBorder1);
+            Controls.Add(cuiButton2);
             FormBorderStyle = FormBorderStyle.None;
             Margin = new Padding(6);
             Name = "Form1";

@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
+﻿using System.Configuration;
 using System.Data.SqlClient;
-using System.Windows.Forms;
 
 namespace FatiIkhlassYoun
 {
@@ -255,23 +251,28 @@ namespace FatiIkhlassYoun
         {
             this.Close();
         }
+
+        private void clbAssignedUsers_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }
 
-    public class ComboboxItem
+public class ComboboxItem
+{
+    public string Text { get; set; }
+    public object Value { get; set; }
+
+    public ComboboxItem(string text, object value)
     {
-        public string Text { get; set; }
-        public object Value { get; set; }
-
-        public ComboboxItem(string text, object value)
-        {
-            Text = text;
-            Value = value;
-        }
-
-        public override string ToString()
-        {
-            return Text;
-        }
+        Text = text;
+        Value = value;
     }
+
+    public override string ToString()
+    {
+        return Text;
+    }
+}
 

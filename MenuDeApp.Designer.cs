@@ -48,18 +48,19 @@ namespace FatiIkhlassYoun
             button1 = new Button();
             label1 = new Label();
             panelsup2 = new Panel();
+            cuiButtonProgress = new CuoreUI.Controls.cuiButton();
+            cuiButtonDelete = new CuoreUI.Controls.cuiButton();
+            cuiButtonEdit = new CuoreUI.Controls.cuiButton();
+            panelwelcome = new Panel();
+            cuiLabel1 = new CuoreUI.Controls.cuiLabel();
+            pictureBoxAdmin = new PictureBox();
             cuiButton1 = new CuoreUI.Controls.cuiButton();
             cuiButtonWtsp = new CuoreUI.Controls.cuiButton();
-            cuiButtonRapport = new CuoreUI.Controls.cuiButton();
-            cuiButtonTasks = new CuoreUI.Controls.cuiButton();
             cuiButtonGenerateReport = new CuoreUI.Controls.cuiButton();
             cuiButtonADD = new CuoreUI.Controls.cuiButton();
             panelleft = new Panel();
             treeView = new TreeView();
             panelRight = new Panel();
-            panelwelcome = new Panel();
-            cuiLabel1 = new CuoreUI.Controls.cuiLabel();
-            pictureBoxAdmin = new PictureBox();
             dataGridView1 = new DataGridView();
             contextMenuAdd = new ContextMenuStrip(components);
             addEmployeeToolStripMenuItem = new ToolStripMenuItem();
@@ -67,15 +68,20 @@ namespace FatiIkhlassYoun
             AddTasktoolStripMenuItem = new ToolStripMenuItem();
             AddProjettoolStripMenuItem = new ToolStripMenuItem();
             dataGridView = new DataGridView();
+            textDataGridViewTextBoxColumn = new DataGridViewTextBoxColumn();
+            contextMenuEdit = new ContextMenuStrip(components);
+            editTaskInfoToolStripMenuItem = new ToolStripMenuItem();
+            editTeamInfoToolStripMenuItem = new ToolStripMenuItem();
             panelSup.SuspendLayout();
             panelsup2.SuspendLayout();
-            panelleft.SuspendLayout();
-            panelRight.SuspendLayout();
             panelwelcome.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBoxAdmin).BeginInit();
+            panelleft.SuspendLayout();
+            panelRight.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             contextMenuAdd.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridView).BeginInit();
+            contextMenuEdit.SuspendLayout();
             SuspendLayout();
             // 
             // panelSup
@@ -86,7 +92,7 @@ namespace FatiIkhlassYoun
             panelSup.Dock = DockStyle.Top;
             panelSup.Location = new Point(0, 0);
             panelSup.Name = "panelSup";
-            panelSup.Size = new Size(2409, 92);
+            panelSup.Size = new Size(3046, 92);
             panelSup.TabIndex = 0;
             panelSup.Paint += panelSup_Paint;
             // 
@@ -119,16 +125,158 @@ namespace FatiIkhlassYoun
             // panelsup2
             // 
             panelsup2.BackColor = Color.WhiteSmoke;
+            panelsup2.Controls.Add(cuiButtonProgress);
+            panelsup2.Controls.Add(cuiButtonDelete);
+            panelsup2.Controls.Add(cuiButtonEdit);
+            panelsup2.Controls.Add(panelwelcome);
             panelsup2.Controls.Add(cuiButton1);
             panelsup2.Controls.Add(cuiButtonWtsp);
-            panelsup2.Controls.Add(cuiButtonRapport);
-            panelsup2.Controls.Add(cuiButtonTasks);
             panelsup2.Controls.Add(cuiButtonGenerateReport);
             panelsup2.Controls.Add(cuiButtonADD);
             panelsup2.Location = new Point(0, 89);
             panelsup2.Name = "panelsup2";
-            panelsup2.Size = new Size(2409, 275);
+            panelsup2.Size = new Size(3046, 275);
             panelsup2.TabIndex = 1;
+            // 
+            // cuiButtonProgress
+            // 
+            cuiButtonProgress.CheckButton = false;
+            cuiButtonProgress.Checked = false;
+            cuiButtonProgress.CheckedBackground = Color.DarkSlateBlue;
+            cuiButtonProgress.CheckedForeColor = Color.White;
+            cuiButtonProgress.CheckedImageTint = Color.White;
+            cuiButtonProgress.CheckedOutline = Color.CornflowerBlue;
+            cuiButtonProgress.Content = "Progress";
+            cuiButtonProgress.DialogResult = DialogResult.None;
+            cuiButtonProgress.Font = new Font("Microsoft Sans Serif", 9.75F);
+            cuiButtonProgress.ForeColor = Color.Black;
+            cuiButtonProgress.HoverBackground = Color.PowderBlue;
+            cuiButtonProgress.HoveredImageTint = Color.White;
+            cuiButtonProgress.HoverForeColor = Color.White;
+            cuiButtonProgress.HoverOutline = Color.Empty;
+            cuiButtonProgress.Image = (Image)resources.GetObject("cuiButtonProgress.Image");
+            cuiButtonProgress.ImageAutoCenter = true;
+            cuiButtonProgress.ImageExpand = new Point(10, 10);
+            cuiButtonProgress.ImageOffset = new Point(90, 0);
+            cuiButtonProgress.ImageTint = Color.WhiteSmoke;
+            cuiButtonProgress.Location = new Point(1018, -6);
+            cuiButtonProgress.Name = "cuiButtonProgress";
+            cuiButtonProgress.NormalBackground = Color.WhiteSmoke;
+            cuiButtonProgress.NormalOutline = Color.Empty;
+            cuiButtonProgress.OutlineThickness = 1.6F;
+            cuiButtonProgress.PressedBackground = Color.Silver;
+            cuiButtonProgress.PressedForeColor = Color.White;
+            cuiButtonProgress.PressedImageTint = Color.White;
+            cuiButtonProgress.PressedOutline = Color.Empty;
+            cuiButtonProgress.Rounding = new Padding(8);
+            cuiButtonProgress.Size = new Size(342, 277);
+            cuiButtonProgress.TabIndex = 17;
+            cuiButtonProgress.TextOffset = new Point(-25, 60);
+            // 
+            // cuiButtonDelete
+            // 
+            cuiButtonDelete.CheckButton = false;
+            cuiButtonDelete.Checked = false;
+            cuiButtonDelete.CheckedBackground = Color.DarkSlateBlue;
+            cuiButtonDelete.CheckedForeColor = Color.White;
+            cuiButtonDelete.CheckedImageTint = Color.White;
+            cuiButtonDelete.CheckedOutline = Color.CornflowerBlue;
+            cuiButtonDelete.Content = "Add ";
+            cuiButtonDelete.DialogResult = DialogResult.None;
+            cuiButtonDelete.Font = new Font("Microsoft Sans Serif", 9.75F);
+            cuiButtonDelete.ForeColor = Color.Black;
+            cuiButtonDelete.HoverBackground = Color.PowderBlue;
+            cuiButtonDelete.HoveredImageTint = Color.White;
+            cuiButtonDelete.HoverForeColor = Color.White;
+            cuiButtonDelete.HoverOutline = Color.Empty;
+            cuiButtonDelete.Image = (Image)resources.GetObject("cuiButtonDelete.Image");
+            cuiButtonDelete.ImageAutoCenter = true;
+            cuiButtonDelete.ImageExpand = new Point(10, 10);
+            cuiButtonDelete.ImageOffset = new Point(50, 0);
+            cuiButtonDelete.ImageTint = Color.WhiteSmoke;
+            cuiButtonDelete.Location = new Point(681, 0);
+            cuiButtonDelete.Name = "cuiButtonDelete";
+            cuiButtonDelete.NormalBackground = Color.WhiteSmoke;
+            cuiButtonDelete.NormalOutline = Color.Empty;
+            cuiButtonDelete.OutlineThickness = 1.6F;
+            cuiButtonDelete.PressedBackground = Color.Silver;
+            cuiButtonDelete.PressedForeColor = Color.White;
+            cuiButtonDelete.PressedImageTint = Color.White;
+            cuiButtonDelete.PressedOutline = Color.Empty;
+            cuiButtonDelete.Rounding = new Padding(8);
+            cuiButtonDelete.Size = new Size(342, 277);
+            cuiButtonDelete.TabIndex = 15;
+            cuiButtonDelete.TextOffset = new Point(-25, 60);
+            // 
+            // cuiButtonEdit
+            // 
+            cuiButtonEdit.CheckButton = false;
+            cuiButtonEdit.Checked = false;
+            cuiButtonEdit.CheckedBackground = Color.DarkSlateBlue;
+            cuiButtonEdit.CheckedForeColor = Color.White;
+            cuiButtonEdit.CheckedImageTint = Color.White;
+            cuiButtonEdit.CheckedOutline = Color.CornflowerBlue;
+            cuiButtonEdit.Content = "Edit";
+            cuiButtonEdit.DialogResult = DialogResult.None;
+            cuiButtonEdit.Font = new Font("Microsoft Sans Serif", 9.75F);
+            cuiButtonEdit.ForeColor = Color.Black;
+            cuiButtonEdit.HoverBackground = Color.PowderBlue;
+            cuiButtonEdit.HoveredImageTint = Color.White;
+            cuiButtonEdit.HoverForeColor = Color.White;
+            cuiButtonEdit.HoverOutline = Color.Empty;
+            cuiButtonEdit.Image = (Image)resources.GetObject("cuiButtonEdit.Image");
+            cuiButtonEdit.ImageAutoCenter = true;
+            cuiButtonEdit.ImageExpand = new Point(10, 10);
+            cuiButtonEdit.ImageOffset = new Point(50, 0);
+            cuiButtonEdit.ImageTint = Color.WhiteSmoke;
+            cuiButtonEdit.Location = new Point(333, 3);
+            cuiButtonEdit.Name = "cuiButtonEdit";
+            cuiButtonEdit.NormalBackground = Color.WhiteSmoke;
+            cuiButtonEdit.NormalOutline = Color.Empty;
+            cuiButtonEdit.OutlineThickness = 1.6F;
+            cuiButtonEdit.PressedBackground = Color.Silver;
+            cuiButtonEdit.PressedForeColor = Color.White;
+            cuiButtonEdit.PressedImageTint = Color.White;
+            cuiButtonEdit.PressedOutline = Color.Empty;
+            cuiButtonEdit.Rounding = new Padding(8);
+            cuiButtonEdit.Size = new Size(342, 277);
+            cuiButtonEdit.TabIndex = 16;
+            cuiButtonEdit.TextOffset = new Point(-25, 60);
+            cuiButtonEdit.Click += cuiButtonEdit_Click_1;
+            // 
+            // panelwelcome
+            // 
+            panelwelcome.BackColor = Color.White;
+            panelwelcome.Controls.Add(cuiLabel1);
+            panelwelcome.Controls.Add(pictureBoxAdmin);
+            panelwelcome.Location = new Point(2481, 274);
+            panelwelcome.Name = "panelwelcome";
+            panelwelcome.Size = new Size(562, 508);
+            panelwelcome.TabIndex = 4;
+            panelwelcome.Paint += panel1_Paint_1;
+            // 
+            // cuiLabel1
+            // 
+            cuiLabel1.Content = "Admin";
+            cuiLabel1.HorizontalAlignment = CuoreUI.Controls.cuiLabel.HorizontalAlignments.Center;
+            cuiLabel1.Location = new Point(131, 174);
+            cuiLabel1.Margin = new Padding(10, 11, 10, 11);
+            cuiLabel1.Name = "cuiLabel1";
+            cuiLabel1.Size = new Size(316, 59);
+            cuiLabel1.TabIndex = 1;
+            // 
+            // pictureBoxAdmin
+            // 
+            pictureBoxAdmin.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            pictureBoxAdmin.ErrorImage = (Image)resources.GetObject("pictureBoxAdmin.ErrorImage");
+            pictureBoxAdmin.Image = Properties.Resources.icons8_admin_100;
+            pictureBoxAdmin.InitialImage = (Image)resources.GetObject("pictureBoxAdmin.InitialImage");
+            pictureBoxAdmin.Location = new Point(185, 28);
+            pictureBoxAdmin.Name = "pictureBoxAdmin";
+            pictureBoxAdmin.Size = new Size(160, 132);
+            pictureBoxAdmin.SizeMode = PictureBoxSizeMode.CenterImage;
+            pictureBoxAdmin.TabIndex = 0;
+            pictureBoxAdmin.TabStop = false;
             // 
             // cuiButton1
             // 
@@ -152,7 +300,7 @@ namespace FatiIkhlassYoun
             cuiButton1.ImageExpand = new Point(10, 10);
             cuiButton1.ImageOffset = new Point(70, 0);
             cuiButton1.ImageTint = Color.White;
-            cuiButton1.Location = new Point(1772, 0);
+            cuiButton1.Location = new Point(2141, 3);
             cuiButton1.Name = "cuiButton1";
             cuiButton1.NormalBackground = Color.WhiteSmoke;
             cuiButton1.NormalOutline = Color.Empty;
@@ -187,7 +335,7 @@ namespace FatiIkhlassYoun
             cuiButtonWtsp.ImageExpand = new Point(10, 10);
             cuiButtonWtsp.ImageOffset = new Point(100, 0);
             cuiButtonWtsp.ImageTint = Color.White;
-            cuiButtonWtsp.Location = new Point(1465, 3);
+            cuiButtonWtsp.Location = new Point(1812, -2);
             cuiButtonWtsp.Name = "cuiButtonWtsp";
             cuiButtonWtsp.NormalBackground = Color.WhiteSmoke;
             cuiButtonWtsp.NormalOutline = Color.Empty;
@@ -201,79 +349,6 @@ namespace FatiIkhlassYoun
             cuiButtonWtsp.TabIndex = 12;
             cuiButtonWtsp.TextOffset = new Point(-30, 60);
             cuiButtonWtsp.Click += cuiButton6_Click;
-            // 
-            // cuiButtonRapport
-            // 
-            cuiButtonRapport.BackColor = Color.WhiteSmoke;
-            cuiButtonRapport.CheckButton = false;
-            cuiButtonRapport.Checked = false;
-            cuiButtonRapport.CheckedBackground = Color.FromArgb(255, 106, 0);
-            cuiButtonRapport.CheckedForeColor = Color.White;
-            cuiButtonRapport.CheckedImageTint = Color.White;
-            cuiButtonRapport.CheckedOutline = Color.FromArgb(255, 106, 0);
-            cuiButtonRapport.Content = "Report";
-            cuiButtonRapport.DialogResult = DialogResult.None;
-            cuiButtonRapport.Font = new Font("Microsoft Sans Serif", 9.75F);
-            cuiButtonRapport.ForeColor = Color.Black;
-            cuiButtonRapport.HoverBackground = Color.PowderBlue;
-            cuiButtonRapport.HoveredImageTint = Color.White;
-            cuiButtonRapport.HoverForeColor = Color.White;
-            cuiButtonRapport.HoverOutline = Color.Empty;
-            cuiButtonRapport.Image = Properties.Resources.icons8_report_50;
-            cuiButtonRapport.ImageAutoCenter = true;
-            cuiButtonRapport.ImageExpand = new Point(10, 10);
-            cuiButtonRapport.ImageOffset = new Point(70, 0);
-            cuiButtonRapport.ImageTint = Color.White;
-            cuiButtonRapport.Location = new Point(1161, -2);
-            cuiButtonRapport.Name = "cuiButtonRapport";
-            cuiButtonRapport.NormalBackground = Color.WhiteSmoke;
-            cuiButtonRapport.NormalOutline = Color.Empty;
-            cuiButtonRapport.OutlineThickness = 1.6F;
-            cuiButtonRapport.PressedBackground = Color.LightSkyBlue;
-            cuiButtonRapport.PressedForeColor = Color.White;
-            cuiButtonRapport.PressedImageTint = Color.White;
-            cuiButtonRapport.PressedOutline = Color.Empty;
-            cuiButtonRapport.Rounding = new Padding(8);
-            cuiButtonRapport.Size = new Size(233, 277);
-            cuiButtonRapport.TabIndex = 13;
-            cuiButtonRapport.TextOffset = new Point(-30, 60);
-            cuiButtonRapport.Click += cuiButtonLogout_Click;
-            // 
-            // cuiButtonTasks
-            // 
-            cuiButtonTasks.CheckButton = false;
-            cuiButtonTasks.Checked = false;
-            cuiButtonTasks.CheckedBackground = Color.FromArgb(255, 106, 0);
-            cuiButtonTasks.CheckedForeColor = Color.White;
-            cuiButtonTasks.CheckedImageTint = Color.White;
-            cuiButtonTasks.CheckedOutline = Color.FromArgb(255, 106, 0);
-            cuiButtonTasks.Content = "Tasks";
-            cuiButtonTasks.DialogResult = DialogResult.None;
-            cuiButtonTasks.Font = new Font("Microsoft Sans Serif", 9.75F);
-            cuiButtonTasks.ForeColor = Color.Black;
-            cuiButtonTasks.HoverBackground = Color.PowderBlue;
-            cuiButtonTasks.HoveredImageTint = Color.Transparent;
-            cuiButtonTasks.HoverForeColor = Color.White;
-            cuiButtonTasks.HoverOutline = Color.Empty;
-            cuiButtonTasks.Image = Properties.Resources.icons8_tasks_50;
-            cuiButtonTasks.ImageAutoCenter = true;
-            cuiButtonTasks.ImageExpand = new Point(10, 10);
-            cuiButtonTasks.ImageOffset = new Point(60, 0);
-            cuiButtonTasks.ImageTint = Color.WhiteSmoke;
-            cuiButtonTasks.Location = new Point(286, 3);
-            cuiButtonTasks.Name = "cuiButtonTasks";
-            cuiButtonTasks.NormalBackground = Color.WhiteSmoke;
-            cuiButtonTasks.NormalOutline = Color.Empty;
-            cuiButtonTasks.OutlineThickness = 1.6F;
-            cuiButtonTasks.PressedBackground = Color.FromArgb(255, 106, 0);
-            cuiButtonTasks.PressedForeColor = Color.White;
-            cuiButtonTasks.PressedImageTint = Color.White;
-            cuiButtonTasks.PressedOutline = Color.Empty;
-            cuiButtonTasks.Rounding = new Padding(8);
-            cuiButtonTasks.Size = new Size(366, 277);
-            cuiButtonTasks.TabIndex = 11;
-            cuiButtonTasks.TextOffset = new Point(-30, 60);
-            cuiButtonTasks.Click += cuiButtonTasks_Click;
             // 
             // cuiButtonGenerateReport
             // 
@@ -296,7 +371,7 @@ namespace FatiIkhlassYoun
             cuiButtonGenerateReport.ImageExpand = new Point(10, 10);
             cuiButtonGenerateReport.ImageOffset = new Point(140, 0);
             cuiButtonGenerateReport.ImageTint = Color.Azure;
-            cuiButtonGenerateReport.Location = new Point(698, 3);
+            cuiButtonGenerateReport.Location = new Point(1419, 0);
             cuiButtonGenerateReport.Name = "cuiButtonGenerateReport";
             cuiButtonGenerateReport.NormalBackground = Color.WhiteSmoke;
             cuiButtonGenerateReport.NormalOutline = Color.Empty;
@@ -327,12 +402,12 @@ namespace FatiIkhlassYoun
             cuiButtonADD.HoveredImageTint = Color.White;
             cuiButtonADD.HoverForeColor = Color.White;
             cuiButtonADD.HoverOutline = Color.Empty;
-            cuiButtonADD.Image = (Image)resources.GetObject("cuiButtonADD.Image");
+            cuiButtonADD.Image = Properties.Resources.icons8_add;
             cuiButtonADD.ImageAutoCenter = true;
             cuiButtonADD.ImageExpand = new Point(10, 10);
             cuiButtonADD.ImageOffset = new Point(50, 0);
             cuiButtonADD.ImageTint = Color.WhiteSmoke;
-            cuiButtonADD.Location = new Point(0, -2);
+            cuiButtonADD.Location = new Point(0, -6);
             cuiButtonADD.Name = "cuiButtonADD";
             cuiButtonADD.NormalBackground = Color.WhiteSmoke;
             cuiButtonADD.NormalOutline = Color.Empty;
@@ -353,13 +428,14 @@ namespace FatiIkhlassYoun
             panelleft.Controls.Add(treeView);
             panelleft.Location = new Point(0, 363);
             panelleft.Name = "panelleft";
-            panelleft.Size = new Size(482, 934);
+            panelleft.Size = new Size(507, 1634);
             panelleft.TabIndex = 2;
             // 
             // treeView
             // 
-            treeView.Dock = DockStyle.Fill;
-            treeView.Location = new Point(0, 0);
+            treeView.Anchor = AnchorStyles.Left;
+            treeView.Cursor = Cursors.Cross;
+            treeView.Location = new Point(3, 3);
             treeView.Name = "treeView";
             treeNode1.Name = "All ";
             treeNode1.Text = "All ";
@@ -384,54 +460,19 @@ namespace FatiIkhlassYoun
             treeNode11.Name = "Tâches";
             treeNode11.Text = "Tâches";
             treeView.Nodes.AddRange(new TreeNode[] { treeNode3, treeNode5, treeNode7, treeNode11 });
-            treeView.Size = new Size(482, 934);
+            treeView.Size = new Size(515, 1637);
             treeView.TabIndex = 0;
             treeView.AfterSelect += treeView_AfterSelect;
             // 
             // panelRight
             // 
             panelRight.BackColor = Color.WhiteSmoke;
-            panelRight.Controls.Add(panelwelcome);
             panelRight.Controls.Add(dataGridView1);
-            panelRight.Location = new Point(1844, 363);
+            panelRight.Location = new Point(2481, 363);
             panelRight.Name = "panelRight";
-            panelRight.Size = new Size(565, 934);
+            panelRight.Size = new Size(565, 1634);
             panelRight.TabIndex = 0;
             panelRight.Paint += panel1_Paint;
-            // 
-            // panelwelcome
-            // 
-            panelwelcome.BackColor = Color.White;
-            panelwelcome.Controls.Add(cuiLabel1);
-            panelwelcome.Controls.Add(pictureBoxAdmin);
-            panelwelcome.Location = new Point(0, 0);
-            panelwelcome.Name = "panelwelcome";
-            panelwelcome.Size = new Size(562, 508);
-            panelwelcome.TabIndex = 4;
-            panelwelcome.Paint += panel1_Paint_1;
-            // 
-            // cuiLabel1
-            // 
-            cuiLabel1.Content = "Admin";
-            cuiLabel1.HorizontalAlignment = CuoreUI.Controls.cuiLabel.HorizontalAlignments.Center;
-            cuiLabel1.Location = new Point(113, 163);
-            cuiLabel1.Margin = new Padding(10, 11, 10, 11);
-            cuiLabel1.Name = "cuiLabel1";
-            cuiLabel1.Size = new Size(316, 59);
-            cuiLabel1.TabIndex = 1;
-            // 
-            // pictureBoxAdmin
-            // 
-            pictureBoxAdmin.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            pictureBoxAdmin.ErrorImage = (Image)resources.GetObject("pictureBoxAdmin.ErrorImage");
-            pictureBoxAdmin.Image = Properties.Resources.icons8_admin_100;
-            pictureBoxAdmin.InitialImage = (Image)resources.GetObject("pictureBoxAdmin.InitialImage");
-            pictureBoxAdmin.Location = new Point(185, 28);
-            pictureBoxAdmin.Name = "pictureBoxAdmin";
-            pictureBoxAdmin.Size = new Size(160, 132);
-            pictureBoxAdmin.SizeMode = PictureBoxSizeMode.CenterImage;
-            pictureBoxAdmin.TabIndex = 0;
-            pictureBoxAdmin.TabStop = false;
             // 
             // dataGridView1
             // 
@@ -441,7 +482,7 @@ namespace FatiIkhlassYoun
             dataGridView1.Location = new Point(-1356, 0);
             dataGridView1.Name = "dataGridView1";
             dataGridView1.RowHeadersWidth = 123;
-            dataGridView1.Size = new Size(0, 934);
+            dataGridView1.Size = new Size(0, 1634);
             dataGridView1.TabIndex = 3;
             // 
             // contextMenuAdd
@@ -484,40 +525,73 @@ namespace FatiIkhlassYoun
             // 
             // dataGridView
             // 
-            dataGridView.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView.Location = new Point(478, 370);
+            dataGridView.ColumnHeadersHeight = 69;
+            dataGridView.Location = new Point(513, 366);
             dataGridView.Name = "dataGridView";
             dataGridView.RowHeadersWidth = 123;
-            dataGridView.Size = new Size(1367, 891);
-            dataGridView.TabIndex = 3;
+            dataGridView.Size = new Size(1962, 1150);
+            dataGridView.TabIndex = 1;
+            // 
+            // textDataGridViewTextBoxColumn
+            // 
+            textDataGridViewTextBoxColumn.DataPropertyName = "Text";
+            textDataGridViewTextBoxColumn.HeaderText = "Text";
+            textDataGridViewTextBoxColumn.MinimumWidth = 15;
+            textDataGridViewTextBoxColumn.Name = "textDataGridViewTextBoxColumn";
+            textDataGridViewTextBoxColumn.Width = 300;
+            // 
+            // contextMenuEdit
+            // 
+            contextMenuEdit.ImageScalingSize = new Size(48, 48);
+            contextMenuEdit.Items.AddRange(new ToolStripItem[] { editTaskInfoToolStripMenuItem, editTeamInfoToolStripMenuItem });
+            contextMenuEdit.Name = "contextMenuEdit";
+            contextMenuEdit.Size = new Size(421, 182);
+            contextMenuEdit.Opening += contextMenuEdit_Opening;
+            // 
+            // editTaskInfoToolStripMenuItem
+            // 
+            editTaskInfoToolStripMenuItem.Name = "editTaskInfoToolStripMenuItem";
+            editTaskInfoToolStripMenuItem.Size = new Size(420, 56);
+            editTaskInfoToolStripMenuItem.Text = "Edit Task Info";
+            editTaskInfoToolStripMenuItem.Click += editTaskInfoToolStripMenuItem_Click;
+            // 
+            // editTeamInfoToolStripMenuItem
+            // 
+            editTeamInfoToolStripMenuItem.Name = "editTeamInfoToolStripMenuItem";
+            editTeamInfoToolStripMenuItem.Size = new Size(420, 56);
+            editTeamInfoToolStripMenuItem.Text = "Edit Team Info";
             // 
             // MenuDeApp
             // 
             AutoScaleDimensions = new SizeF(20F, 48F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(2409, 1257);
+            ClientSize = new Size(3046, 2000);
             Controls.Add(dataGridView);
             Controls.Add(panelRight);
             Controls.Add(panelleft);
             Controls.Add(panelsup2);
             Controls.Add(panelSup);
             FormBorderStyle = FormBorderStyle.None;
+            MinimumSize = new Size(1200, 800);
             Name = "MenuDeApp";
-            StartPosition = FormStartPosition.CenterParent;
+            StartPosition = FormStartPosition.CenterScreen;
             Text = "  ";
             Load += MenuDeApp_Load;
             panelSup.ResumeLayout(false);
             panelSup.PerformLayout();
             panelsup2.ResumeLayout(false);
-            panelleft.ResumeLayout(false);
-            panelRight.ResumeLayout(false);
             panelwelcome.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)pictureBoxAdmin).EndInit();
+            panelleft.ResumeLayout(false);
+            panelRight.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
             contextMenuAdd.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)dataGridView).EndInit();
+            contextMenuEdit.ResumeLayout(false);
             ResumeLayout(false);
         }
+
+
 
         private void treeViewEmployee_AfterSelect(object sender, TreeViewEventArgs e)
         {
@@ -533,10 +607,8 @@ namespace FatiIkhlassYoun
         private Label label1;
         private Button button1;
         public CuoreUI.Controls.cuiButton cuiButtonADD;
-        private CuoreUI.Controls.cuiButton cuiButtonTasks;
         private CuoreUI.Controls.cuiButton cuiButtonGenerateReport;
         private CuoreUI.Controls.cuiButton cuiButtonWtsp;
-        private CuoreUI.Controls.cuiButton cuiButtonRapport;
         private DataGridView dataGridView1;
         private ContextMenuStrip contextMenuAdd;
         private ToolStripMenuItem addEmployeeToolStripMenuItem;
@@ -549,6 +621,12 @@ namespace FatiIkhlassYoun
         private ToolStripMenuItem AddTasktoolStripMenuItem;
         private ToolStripMenuItem AddProjettoolStripMenuItem;
         private CuoreUI.Controls.cuiButton cuiButton1;
-
+        private DataGridViewTextBoxColumn textDataGridViewTextBoxColumn;
+        public CuoreUI.Controls.cuiButton cuiButtonDelete;
+        public CuoreUI.Controls.cuiButton cuiButtonEdit;
+        public CuoreUI.Controls.cuiButton cuiButtonProgress;
+        private ContextMenuStrip contextMenuEdit;
+        private ToolStripMenuItem editTaskInfoToolStripMenuItem;
+        private ToolStripMenuItem editTeamInfoToolStripMenuItem;
     }
 }

@@ -114,7 +114,7 @@ namespace FatiIkhlassYoun
             // 
             buttonCreateTask.BackColor = Color.LimeGreen;
             buttonCreateTask.FlatStyle = FlatStyle.Flat;
-            buttonCreateTask.Location = new Point(2027, 1410);
+            buttonCreateTask.Location = new Point(1270, 1533);
             buttonCreateTask.Name = "buttonCreateTask";
             buttonCreateTask.Size = new Size(422, 113);
             buttonCreateTask.TabIndex = 37;
@@ -242,7 +242,7 @@ namespace FatiIkhlassYoun
             // 
             buttonAnnuler.BackColor = Color.Red;
             buttonAnnuler.FlatStyle = FlatStyle.Flat;
-            buttonAnnuler.Location = new Point(1614, 1410);
+            buttonAnnuler.Location = new Point(857, 1533);
             buttonAnnuler.Name = "buttonAnnuler";
             buttonAnnuler.Size = new Size(265, 113);
             buttonAnnuler.TabIndex = 52;
@@ -273,7 +273,7 @@ namespace FatiIkhlassYoun
             AutoScaleDimensions = new SizeF(20F, 48F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.ButtonHighlight;
-            ClientSize = new Size(2604, 1574);
+            ClientSize = new Size(1906, 1699);
             Controls.Add(cmbProject);
             Controls.Add(label2);
             Controls.Add(buttonAnnuler);

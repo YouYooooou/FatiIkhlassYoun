@@ -1,14 +1,15 @@
 ﻿using iTextSharp.text.pdf;
 using iTextSharp.text;
-using iTextSharp.text.pdf;
 using System.IO;
 using ClosedXML.Excel;
 using System.Diagnostics;
-using iTextSharp.text;
 using System.ComponentModel;
 using System.Data;
 using System.Data.SqlClient;
-using System.Diagnostics;
+using Rectangle = System.Drawing.Rectangle;
+using Font = System.Drawing.Font;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
+
 namespace FatiIkhlassYoun
 {
     public partial class MenuDeApp : Form
@@ -19,6 +20,8 @@ namespace FatiIkhlassYoun
         private object filters;
         private Document document1;
         private string fileName;
+        private int selectedId;
+        private string currentViewType;
 
 
         public string Title { get; private set; }
@@ -36,11 +39,17 @@ namespace FatiIkhlassYoun
 
             // Si vous devez l'ajouter à un conteneur (comme un Panel ou Form), vous pouvez le faire ici
             this.Controls.Add(txtPassword);
+
+            UpdateTreeView();
+
+            LoadInitialData();
+
+
         }
 
         private void MenuDeApp_Load(object sender, EventArgs e)
         {
-       
+
 
         }
 
@@ -115,6 +124,7 @@ namespace FatiIkhlassYoun
         private TextBox txtPhone;
         private string connectionString;
         private object dgvTasks;
+
 
         private void cuiButtonReport_Click(object sender, EventArgs e)
         {
@@ -211,19 +221,7 @@ namespace FatiIkhlassYoun
 
                 nomsDeRapports.Add($"• {project.Title}");
             }
-
-            // ➤ Envoi WhatsApp à la fin
-            string phone = "2126XXXXXXX"; // Numéro sans le +
-            string message = "Rapports générés pour les projets suivants :\n\n" + string.Join("\n", nomsDeRapports);
-
-
-            Process.Start(new ProcessStartInfo
-            {
-                FileName = url,
-                UseShellExecute = true
-            });
-
-            MessageBox.Show("✅ Tous les rapports ont été générés et le message WhatsApp est prêt !");
+            MessageBox.Show("✅ Tous les rapports ont été générés  !");
         }
         private List<Project> GetAllProjects()
         {
@@ -258,7 +256,6 @@ namespace FatiIkhlassYoun
 
             return projects;
         }
-
         private dynamic GetProjectInfo(int projectId)
         {
             string connectionString = "Server=DESKTOP-78OLGDN;Database=ProjectManagementSystem;Integrated Security=True;";
@@ -286,7 +283,6 @@ namespace FatiIkhlassYoun
             }
             return null;
         }
-
         private List<dynamic> GetProjectTasks(int projectId)
         {
             var list = new List<dynamic>();
@@ -314,7 +310,6 @@ namespace FatiIkhlassYoun
             }
             return list;
         }
-
         private List<dynamic> GetProjectUsers(int projectId)
         {
             var list = new List<dynamic>();
@@ -349,14 +344,12 @@ namespace FatiIkhlassYoun
             }
             return list;
         }
-
-
-
-
         private void cuiButtonTasks_Click(object sender, EventArgs e)
         {
-
+            FormDashboardProgress dashboardProgressForm = new FormDashboardProgress();
+            dashboardProgressForm.Show();
         }
+
 
         private void cuiButtonDelete_Click(object sender, EventArgs e)
         {
@@ -372,12 +365,10 @@ namespace FatiIkhlassYoun
         {
 
         }
-
         private void panelSup_Paint(object sender, PaintEventArgs e)
         {
 
         }
-
         private void contextMenuAdd_Opening(object sender, CancelEventArgs e)
         {
 
@@ -388,6 +379,7 @@ namespace FatiIkhlassYoun
             FormAddEmployee form = new FormAddEmployee();
             form.Show();
         }
+
 
 
         private class AddEmployeeControl : Control
@@ -419,126 +411,193 @@ namespace FatiIkhlassYoun
         {
 
         }
-
         private void label2_Click(object sender, EventArgs e)
         {
         }
 
+        private void RefreshCurrentView()
+        {
+            if (treeView.SelectedNode == null) return;
+
+            string connectionString = "Server=DESKTOP-78OLGDN;Database=ProjectManagementSystem;Integrated Security=True;";
+
+            try
+            {
+                switch (treeView.SelectedNode.Text)
+                {
+                    case "Employees" or "Utilisateurs":
+                        LoadUsersData(connectionString);
+                        break;
+                    case "Groups" or "Équipes":
+                        LoadTeamsData(connectionString);
+                        break;
+                    case "Projets":
+                        LoadProjectsData(connectionString);
+                        break;
+                    case "Tâches":
+                        LoadTasksData(connectionString);
+                        break;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Erreur lors du rafraîchissement: {ex.Message}", "Erreur",
+                              MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+
+        internal class FormDashboardProgress : Form
+        {
+            // Ajout de la classe FormDashboardProgress héritant de Form pour résoudre l'erreur CS1061.
+        }
+
+
+
+        private void LoadData()
+        {
+            // Logique pour charger à nouveau les données en fonction du nœud sélectionné dans le TreeView
+            string selectedNode = treeView.SelectedNode.Text;
+
+            string connectionString = "Server=DESKTOP-78OLGDN;Database=ProjectManagementSystem;Integrated Security=True;";
+            string query = string.Empty;
+
+            if (selectedNode == "Projets")
+            {
+                query = "SELECT ProjectID, Title, Description, StartDate, EndDate, Status FROM Projects";
+            }
+            else if (selectedNode == "Tâches")
+            {
+                query = "SELECT TaskID, Title, Description, StartDate, DueDate, Status FROM Tasks";
+            }
+            else if (selectedNode == "Utilisateurs")
+            {
+                query = "SELECT UserID,Username, PasswordHash, Email, Role, PhoneNumber FROM Users";
+            }
+
+            else if (selectedNode == "équipes")
+            {
+
+                query = "SELECT TeamID ,Name,LeaderID FROM Teams";
+            }
+
+
+            // Ajouter d'autres conditions pour d'autres catégories comme "Users", "Teams", etc.
+
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                try
+                {
+                    SqlDataAdapter adapter = new SqlDataAdapter(query, conn);
+                    DataTable dt = new DataTable();
+                    adapter.Fill(dt);
+                    dataGridView.DataSource = dt;
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Erreur lors du chargement des données : " + ex.Message);
+                }
+            }
+        }
 
         private void treeView_AfterSelect(object sender, TreeViewEventArgs e)
         {
+            // Vérification du nœud sélectionné et chargement des données
+            string connectionString = "Server=DESKTOP-78OLGDN;Database=ProjectManagementSystem;Integrated Security=True;";
+
             if (e.Node.Text == "Employees")
             {
-                string connectionString = "Server=DESKTOP-78OLGDN;Database=ProjectManagementSystem;Integrated Security=True;";
-                string query = "SELECT UserID, Username, Email, Role, IsActive FROM Users";
-
-                using (SqlConnection connection = new(connectionString))
-                {
-                    try
-                    {
-                        SqlDataAdapter adapter = new(query, connection);
-                        DataTable dt = new();
-                        adapter.Fill(dt);
-                        dataGridView.DataSource = dt;
-                    }
-                    catch (Exception ex)
-                    {
-                        MessageBox.Show("Erreur lors du chargement des utilisateurs : " + ex.Message);
-                    }
-                }
+                LoadUsersData(connectionString);
             }
-            if (e.Node.Text == "Groups")
+            else if (e.Node.Text == "Groups")
             {
-                string connectionString = "Server=DESKTOP-78OLGDN;Database=ProjectManagementSystem;Integrated Security=True;";
-                string query = "SELECT TeamID,Name,LeaderID FROM Teams";
-
-                using (SqlConnection connection = new(connectionString))
-                {
-                    try
-                    {
-                        SqlDataAdapter adapter = new(query, connection);
-                        DataTable dt = new();
-                        adapter.Fill(dt);
-                        dataGridView.DataSource = dt;
-                    }
-                    catch (Exception ex)
-                    {
-                        MessageBox.Show("Erreur lors du chargement des Groupes: " + ex.Message);
-                    }
-                }
+                LoadTeamsData(connectionString);
             }
-            if (e.Node.Text == "Projets")
+            else if (e.Node.Text == "Projets")
             {
-                string connectionString = "Server=DESKTOP-78OLGDN;Database=ProjectManagementSystem;Integrated Security=True;";
-                string query = "SELECT ProjectID,Title,Description,StartDate,EndDate,Status,ManagerID FROM Projects";
-
-                using (SqlConnection connection = new(connectionString))
-                {
-                    try
-                    {
-                        SqlDataAdapter adapter = new(query, connection);
-                        DataTable dt = new();
-                        adapter.Fill(dt);
-                        dataGridView.DataSource = dt;
-                    }
-                    catch (Exception ex)
-                    {
-                        MessageBox.Show("Erreur lors du chargement des Groupes: " + ex.Message);
-                    }
-                }
+                LoadProjectsData(connectionString);
             }
-            if (e.Node.Text == "Tâches")
+            else if (e.Node.Text == "Tâches")
             {
-                string connectionString = "Server=DESKTOP-78OLGDN;Database=ProjectManagementSystem;Integrated Security=True;";
-                string query = "SELECT TaskID,ProjectID,Title,Description,StartDate,DueDate,Status,EstimatedTime,TeamLeadID FROM Tasks";
+                LoadTasksData(connectionString);
+            }
 
-                using (SqlConnection connection = new(connectionString))
+            // Mise à jour de l'arborescence du TreeView
+            UpdateTreeView();
+        }
+
+        private void LoadUsersData(string connectionString)
+        {
+            string query = "SELECT UserID, Username, Email, Role, IsActive FROM Users";
+            FillDataGridView(query, connectionString);
+        }
+
+        private void LoadTeamsData(string connectionString)
+        {
+            string query = "SELECT TeamID, Name, LeaderID FROM Teams";
+            FillDataGridView(query, connectionString);
+        }
+
+        private void LoadProjectsData(string connectionString)
+        {
+            string query = "SELECT ProjectID, Title, Description, StartDate, EndDate, Status, ManagerID FROM Projects";
+            FillDataGridView(query, connectionString);
+        }
+
+        private void LoadTasksData(string connectionString)
+        {
+            string query = "SELECT TaskID, ProjectID, Title, Description, StartDate, DueDate, Status, EstimatedTime, TeamLeadID FROM Tasks";
+            FillDataGridView(query, connectionString);
+        }
+
+        private void FillDataGridView(string query, string connectionString)
+        {
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                try
                 {
-                    try
-                    {
-                        SqlDataAdapter adapter = new(query, connection);
-                        DataTable dt = new();
-                        adapter.Fill(dt);
-                        dataGridView.DataSource = dt;
-                    }
-                    catch (Exception ex)
-                    {
-                        MessageBox.Show("Erreur lors du chargement des Groupes: " + ex.Message);
-                    }
+                    SqlDataAdapter adapter = new SqlDataAdapter(query, connection);
+                    DataTable dt = new DataTable();
+                    adapter.Fill(dt);
+                    dataGridView.DataSource = dt;
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Erreur lors du chargement des données: " + ex.Message);
                 }
             }
+        }
+
+        private void UpdateTreeView()
+        {
+            // Effacer les anciens nœuds du TreeView
             treeView.Nodes.Clear();
 
-            // ----- Catégorie "Employees"
-            TreeNode employees = new("Employees");
+            // Ajouter des catégories au TreeView
+            TreeNode employees = new TreeNode("Employees");
             employees.Nodes.Add("All (30)");
             employees.Nodes.Add("On leave (5)");
             employees.Nodes.Add("Sous-Traitants (3)");
 
-            // ----- Catégorie "Projets"
-            TreeNode projets = new("Projets");
-           
+            TreeNode projets = new TreeNode("Projets");
             projets.Nodes.Add("Chef de projets (5)");
 
-            // ----- Catégorie "Groups"
-            TreeNode groups = new("Groups");
-          
+            TreeNode groups = new TreeNode("Groups");
             groups.Nodes.Add("Chef d'équipes (8)");
 
-            // ----- Catégorie "Tâches"
-            TreeNode taches = new("Tâches");
+            TreeNode taches = new TreeNode("Tâches");
             taches.Nodes.Add("Tâches sous-traitants (8)");
             taches.Nodes.Add("Tâches internes (8)");
             taches.Nodes.Add("Tâches externes (5)");
 
-            // ----- Ajout au TreeViewMenu
+            // Ajout des nœuds au TreeView
             treeView.Nodes.Add(employees);
             treeView.Nodes.Add(projets);
             treeView.Nodes.Add(groups);
             treeView.Nodes.Add(taches);
 
-            treeView.ExpandAll(); // Tout déplier
-
+            // Déplier tous les nœuds
+            treeView.ExpandAll();
         }
 
         private void toolStripComboBox1_Click(object sender, EventArgs e)
@@ -560,11 +619,59 @@ namespace FatiIkhlassYoun
 
             // Il n'est pas nécessaire de gérer les DataGridView ou de recharger les tâches ici
         }
-
-
         internal class EditformControl : Control
         {
         }
+
+        private void LoadInitialData()
+        {
+            string connectionString = "Server=DESKTOP-78OLGDN;Database=ProjectManagementSystem;Integrated Security=True;";
+            LoadUsersData(connectionString);
+        }
+
+
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void cuiButtonEdit_Click_1(object sender, EventArgs e)
+        {
+
+        }
+
+        private void contextMenuEdit_Opening(object sender, CancelEventArgs e)
+        {
+            contextMenuEdit.Show(cuiButtonEdit, new Point(0, cuiButtonEdit.Height));
+        }
+
+        private void editTaskInfoToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            FormEditTask form = new FormEditTask();
+            form.Show();
+        }
     }
+
+
 }
 
+
+      
+
+    
+
+
+
+       
+           
+       
+
+
+
+        
+
+
+
+
+    

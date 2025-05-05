@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
+﻿using System.Configuration;
 using System.Data.SqlClient;
-using System.Windows.Forms;
 
 namespace FatiIkhlassYoun
 {
@@ -102,8 +99,8 @@ namespace FatiIkhlassYoun
             }
         }
 
-       
-           private void buttonSave_Click(object sender, EventArgs e)
+
+        private void buttonSave_Click(object sender, EventArgs e)
         {
             // Vérifie que tous les champs obligatoires sont remplis
             if (string.IsNullOrWhiteSpace(txtTeamName.Text) || comboBoxLeader.SelectedItem == null || comboBoxProject.SelectedItem == null)
@@ -172,7 +169,7 @@ namespace FatiIkhlassYoun
             }
         }
 
-        
+
 
         private void buttonSave_Click_1(object sender, EventArgs e)
         {
