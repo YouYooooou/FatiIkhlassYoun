@@ -10,8 +10,9 @@
 
 namespace FatiIkhlassYoun.Properties {
     using System;
-    
-    
+    using System.Drawing;
+
+
     /// <summary>
     ///   Une classe de ressource fortement typée destinée, entre autres, à la consultation des chaînes localisées.
     /// </summary>
@@ -31,7 +32,9 @@ namespace FatiIkhlassYoun.Properties {
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
         internal Resources() {
         }
-        
+
+        public static Image TeamDeleteIcon { get; internal set; }
+
         /// <summary>
         ///   Retourne l'instance ResourceManager mise en cache utilisée par cette classe.
         /// </summary>
@@ -196,6 +199,16 @@ namespace FatiIkhlassYoun.Properties {
         internal static System.Drawing.Bitmap icons8_refresh_322 {
             get {
                 object obj = ResourceManager.GetObject("icons8-refresh-322", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Recherche une ressource localisée de type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap icons8_refresh_323 {
+            get {
+                object obj = ResourceManager.GetObject("icons8-refresh-323", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

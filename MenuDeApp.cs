@@ -10,11 +10,12 @@ using Rectangle = System.Drawing.Rectangle;
 using Font = System.Drawing.Font;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.StartPanel;
 
+
 namespace FatiIkhlassYoun
 {
     public partial class MenuDeApp : Form
     {
-
+        // Déclaration des variables
         private object favorites;
         private object treeViewMenu;
         private object filters;
@@ -22,7 +23,14 @@ namespace FatiIkhlassYoun
         private string fileName;
         private int selectedId;
         private string currentViewType;
-
+        private TextBox txtUsername;
+        private TextBox txtPassword;
+        private TextBox txtEmail;
+        private ComboBox cmbRole;
+        private CheckBox chkIsActive;
+        private TextBox txtPhone;
+        private string connectionString = "Server=DESKTOP-78OLGDN;Database=ProjectManagementSystem;Integrated Security=True;";
+        private object dgvTasks;
 
         public string Title { get; private set; }
         public string ProjectID { get; private set; }
@@ -30,209 +38,505 @@ namespace FatiIkhlassYoun
         public MenuDeApp()
         {
             InitializeComponent();
-            // Si vous n'avez pas ajouté 'txtPassword' via le designer, vous pouvez l'initialiser ici
-            txtPassword = new TextBox();
-            txtPassword.Name = "txtPassword";
-            txtPassword.Text = "";  // Initialiser le texte par défaut
-            txtPassword.Location = new Point(10, 10);  // Par exemple, placez-le à une position spécifique sur le formulaire
-            txtPassword.Size = new Size(200, 30);  // Définir une taille appropriée
-
-            // Si vous devez l'ajouter à un conteneur (comme un Panel ou Form), vous pouvez le faire ici
-            this.Controls.Add(txtPassword);
-
+            InitializeControls();
             UpdateTreeView();
-
             LoadInitialData();
-
-
         }
 
-        private void MenuDeApp_Load(object sender, EventArgs e)
+        private void InitializeControls()
         {
-
-
+            // Initialisation des contrôles
+            txtPassword = new TextBox
+            {
+                Name = "txtPassword",
+                Text = "",
+                Location = new Point(10, 10),
+                Size = new Size(200, 30)
+            };
+            this.Controls.Add(txtPassword);
         }
 
-        private void panel1_Paint(object sender, PaintEventArgs e)
-        {
+        #region Gestion des Événements de Base
+        private void MenuDeApp_Load(object sender, EventArgs e) { }
+        private void panel1_Paint(object sender, PaintEventArgs e) { }
+        private void label1_Click(object sender, EventArgs e) { }
+        private void button1_Click(object sender, EventArgs e) { }
+        private void button1_Click_1(object sender, EventArgs e) { }
+        private void cuiDataGridView1_Click(object sender, EventArgs e) { }
+        private void panelsup2_Paint(object sender, PaintEventArgs e) { }
+        private void panelSup_Paint(object sender, PaintEventArgs e) { }
+        private void panel1_Paint_1(object sender, PaintEventArgs e) { }
+        private void label2_Click(object sender, EventArgs e) { }
+        private void toolStripComboBox1_Click(object sender, EventArgs e) { }
+        private void button2_Click(object sender, EventArgs e) { }
+        #endregion
 
-        }
-
-        private void label1_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void button1_Click_1(object sender, EventArgs e)
-        {
-
-        }
-
-        private void cuiButton1_Click(object sender, EventArgs e)
+        #region Gestion des Boutons
+        private void cuiButtonADD_Click(object sender, EventArgs e)
         {
             contextMenuAdd.Show(cuiButtonADD, new Point(0, cuiButtonADD.Height));
         }
 
-        private void cuiDataGridView1_Click(object sender, EventArgs e)
+        private void cuiButtonEdit_Click(object sender, EventArgs e)
         {
-
+            contextMenuEdit.Show(cuiButtonEdit, new Point(cuiButtonEdit.Width, 0));
         }
-
-        private void cuiButton6_Click(object sender, EventArgs e)
-        {
-            // Lien vers WhatsApp
-            string phone = "212694485667"; // Remplace par un vrai numéro sans le +
-            string message = "Bonjour, voici le rapport PDF : http://localhost/rapports/" + fileName;
-            string url = "https://wa.me/" + phone + "?text=" + Uri.EscapeDataString(message);
-
-            try
-            {
-                Process.Start(new ProcessStartInfo
-                {
-                    FileName = url,
-                    UseShellExecute = true // Assure que l'URL est ouverte avec le navigateur par défaut
-                });
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Erreur lors de l'ouverture de WhatsApp Web : " + ex.Message);
-            }
-
-            MessageBox.Show("✅ Rapport PDF généré et lien WhatsApp ouvert dans le navigateur !");
-        }
-
-
-        private void cuiButton2_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void cuiButtonLogout_Click(object sender, EventArgs e)
-        {
-
-        }
-        private TextBox txtUsername;
-        private TextBox txtPassword;
-        private TextBox txtEmail;
-        private ComboBox cmbRole;
-        private CheckBox chkIsActive;
-        private TextBox txtPhone;
-        private string connectionString;
-        private object dgvTasks;
 
 
         private void cuiButtonReport_Click(object sender, EventArgs e)
         {
-            string connectionString = "Server=DESKTOP-78OLGDN;Database=ProjectManagementSystem;Integrated Security=True;";
-            string dossierRapports = @"C:\Rapports\";
+            ReportGeneratorForm reportForm = new ReportGeneratorForm();
+            reportForm.ShowDialog(); // Utilisez ShowDialog() pour un formulaire modal
+        }
 
-            // Vérifier si le dossier existe sinon le créer
-            if (!Directory.Exists(dossierRapports))
+
+        private void cuiButtonWtsp_Click(object sender, EventArgs e)
+        {
+            try
             {
-                Directory.CreateDirectory(dossierRapports);
+                // Créer et afficher le formulaire WhatsApp
+                using (WhatsAppForm whatsappForm = new WhatsAppForm())
+                {
+                    // Définir le propriétaire du formulaire pour le centrer correctement
+                    whatsappForm.StartPosition = FormStartPosition.CenterParent;
+
+                    // Afficher le formulaire comme une boîte de dialogue modale
+                    DialogResult result = whatsappForm.ShowDialog(this); // 'this' référence le formulaire parent
+
+                    // Vérifier le résultat après la fermeture du formulaire
+                    if (result == DialogResult.OK)
+                    {
+                        // Journaliser l'action
+                        LogAction("WhatsApp messages sent via admin dashboard");
+
+                        // Afficher une confirmation à l'utilisateur
+                        ShowNotification("Messages WhatsApp envoyés avec succès", NotificationType.Success);
+                    }
+                    else if (result == DialogResult.Cancel)
+                    {
+                        // Journaliser l'annulation
+                        LogAction("WhatsApp message sending cancelled");
+                    }
+                }
             }
-
-            var allProjects = GetAllProjects();
-
-            if (allProjects == null || allProjects.Count == 0)
+            catch (Exception ex)
             {
-                MessageBox.Show("Aucun projet trouvé !");
+                // Gérer les erreurs et afficher un message à l'utilisateur
+                MessageBox.Show(this,
+                    $"Une erreur est survenue lors de l'ouverture du formulaire WhatsApp :\n{ex.Message}",
+                    "Erreur",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+
+                LogError("Failed to open WhatsApp form", ex);
+            }
+        }
+
+        // Méthodes helper (à ajouter à votre classe)
+        private void LogAction(string action)
+        {
+            // Implémentez votre logique de journalisation ici
+            // Exemple : enregistrement dans une base de données ou un fichier log
+            Console.WriteLine($"[{DateTime.Now}] ACTION: {action}");
+        }
+
+        private void LogError(string message, Exception ex)
+        {
+            // Implémentez votre logique de journalisation d'erreur ici
+            Console.WriteLine($"[{DateTime.Now}] ERROR: {message}\n{ex}");
+        }
+
+        private void ShowNotification(string message, NotificationType type)
+        {
+            // Implémentez votre système de notification personnalisé ici
+            // Pour l'instant, nous utilisons MessageBox comme solution de base
+            MessageBoxIcon icon = type == NotificationType.Success ? MessageBoxIcon.Information : MessageBoxIcon.Warning;
+            MessageBox.Show(this, message, "Notification", MessageBoxButtons.OK, icon);
+        }
+
+        public enum NotificationType
+        {
+            Success,
+            Warning,
+            Error
+        }
+        #endregion
+
+        #region Gestion des Menus Contextuels
+        private void contextMenuAdd_Opening(object sender, CancelEventArgs e) { }
+
+        private void addEmployeeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            FormAddEmployee form = new FormAddEmployee();
+            form.Show();
+            form.FormClosed += (s, args) => RefreshCurrentView();
+        }
+
+        private void addTeamToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            FormAddTeam form = new FormAddTeam();
+            form.Show();
+            form.FormClosed += (s, args) => RefreshCurrentView();
+        }
+
+        private void AddProjettoolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            FormAddProject formAddProject = new FormAddProject();
+            formAddProject.Show();
+            formAddProject.FormClosed += (s, args) => RefreshCurrentView();
+        }
+
+        private void AddTasktoolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            FormAddTask formAddTask = new FormAddTask();
+            formAddTask.Show();
+            formAddTask.FormClosed += (s, args) => RefreshCurrentView();
+        }
+
+        private void contextMenuEdit_Opening(object sender, CancelEventArgs e) { }
+
+        private void editTeamInfoToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (dataGridView.SelectedRows.Count > 0)
+            {
+                int teamId = Convert.ToInt32(dataGridView.SelectedRows[0].Cells["TeamID"].Value);
+                FormEditTeam form = new FormEditTeam(teamId);
+                form.Show();
+                form.FormClosed += (s, args) => RefreshCurrentView();
+            }
+            else
+            {
+                MessageBox.Show("Veuillez sélectionner une équipe à modifier",
+                              "Aucune sélection",
+                              MessageBoxButtons.OK,
+                              MessageBoxIcon.Warning);
+            }
+        }
+
+        private void editTaskInfoToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            // Vérifier qu'une ligne est sélectionnée
+            if (dataGridView.SelectedRows.Count == 0)
+            {
+                MessageBox.Show("Veuillez sélectionner une tâche à modifier",
+                              "Aucune sélection",
+                              MessageBoxButtons.OK,
+                              MessageBoxIcon.Warning);
                 return;
             }
 
-            List<string> nomsDeRapports = new List<string>();
-
-            foreach (var project in allProjects)
+            // Vérifier que la colonne TaskID existe
+            if (!dataGridView.Columns.Contains("TaskID"))
             {
-                int projectId = project.ProjectID;
-
-                var tasks = GetProjectTasks(projectId);
-                var users = GetProjectUsers(projectId);
-
-                string fileName = $"Rapport_Projet_{projectId}_{DateTime.Now:yyyyMMdd_HHmmss}.xlsx";
-                string filePath = Path.Combine(dossierRapports, fileName);
-
-                var wb = new XLWorkbook();
-
-                // ➤ Feuille Projet
-                var wsProject = wb.Worksheets.Add("Projet");
-                wsProject.Cell(1, 1).Value = "Nom du Projet";
-                wsProject.Cell(1, 2).Value = project.Title;
-
-                wsProject.Cell(2, 1).Value = "Description";
-                wsProject.Cell(2, 2).Value = project.Description;
-
-                wsProject.Cell(3, 1).Value = "Date Début";
-                wsProject.Cell(3, 2).Value = project.StartDate.ToString("dd/MM/yyyy");
-
-                wsProject.Cell(4, 1).Value = "Date Fin";
-                wsProject.Cell(4, 2).Value = project.EndDate.ToString("dd/MM/yyyy");
-
-                // ➤ Feuille Tâches
-                var wsTasks = wb.Worksheets.Add("Tâches");
-                wsTasks.Cell(1, 1).Value = "Titre";
-                wsTasks.Cell(1, 2).Value = "Statut";
-                wsTasks.Cell(1, 3).Value = "Échéance";
-
-                int rowTask = 2;
-                foreach (var t in tasks)
-                {
-                    wsTasks.Cell(rowTask, 1).Value = t.Title;
-                    wsTasks.Cell(rowTask, 2).Value = t.Status;
-                    wsTasks.Cell(rowTask, 3).Value = t.DueDate.ToString("dd/MM/yyyy");
-                    rowTask++;
-                }
-
-                // ➤ Feuille Utilisateurs
-                var wsUsers = wb.Worksheets.Add("Utilisateurs");
-                wsUsers.Cell(1, 1).Value = "Nom";
-                wsUsers.Cell(1, 2).Value = "Email";
-                wsUsers.Cell(1, 3).Value = "Rôle";
-
-                int rowUser = 2;
-                foreach (var u in users)
-                {
-                    wsUsers.Cell(rowUser, 1).Value = u.Username;
-                    wsUsers.Cell(rowUser, 2).Value = u.Email;
-                    wsUsers.Cell(rowUser, 3).Value = u.Role;
-                    rowUser++;
-                }
-
-                wb.SaveAs(filePath);
-
-                // ➤ Insertion dans Reports
-                using (SqlConnection conn = new SqlConnection(connectionString))
-                {
-                    conn.Open();
-                    string insertReport = "INSERT INTO Reports (ProjectID, DateGenerated, FilePath) VALUES (@ProjectID, @DateGenerated, @FilePath)";
-                    using (SqlCommand cmd = new SqlCommand(insertReport, conn))
-                    {
-                        cmd.Parameters.AddWithValue("@ProjectID", projectId);
-                        cmd.Parameters.AddWithValue("@DateGenerated", DateTime.Now);
-                        cmd.Parameters.AddWithValue("@FilePath", filePath);
-                        cmd.ExecuteNonQuery();
-                    }
-                }
-
-                nomsDeRapports.Add($"• {project.Title}");
+                MessageBox.Show("La colonne TaskID est introuvable dans la vue",
+                              "Erreur de configuration",
+                              MessageBoxButtons.OK,
+                              MessageBoxIcon.Error);
+                return;
             }
-            MessageBox.Show("✅ Tous les rapports ont été générés  !");
-        }
-        private List<Project> GetAllProjects()
-        {
-            List<Project> projects = new List<Project>();
 
-            string connectionString = "Server=DESKTOP-78OLGDN;Database=ProjectManagementSystem;Integrated Security=True;";
+            try
+            {
+                // Récupérer l'ID de la tâche
+                var selectedRow = dataGridView.SelectedRows[0];
+                var taskIdCell = selectedRow.Cells["TaskID"];
+
+                if (taskIdCell.Value == null || taskIdCell.Value == DBNull.Value)
+                {
+                    MessageBox.Show("L'ID de la tâche est invalide",
+                                  "Donnée corrompue",
+                                  MessageBoxButtons.OK,
+                                  MessageBoxIcon.Error);
+                    return;
+                }
+
+                int taskId = Convert.ToInt32(taskIdCell.Value);
+
+                // Ouvrir le formulaire d'édition
+                FormEditTask form = new FormEditTask(taskId);
+                form.Show();
+                form.FormClosed += (s, args) => RefreshCurrentView();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Erreur lors de l'ouverture de l'éditeur : {ex.Message}",
+                              "Erreur",
+                              MessageBoxButtons.OK,
+                              MessageBoxIcon.Error);
+            }
+        }
+        #endregion
+
+        #region Fonctions de Gestion des Données
+        private void LoadInitialData()
+        {
+            LoadUsersData(connectionString);
+        }
+
+        private void RefreshCurrentView()
+        {
+            if (treeView.SelectedNode == null) return;
+
+            try
+            {
+                switch (treeView.SelectedNode.Text)
+                {
+                    case "Employees":
+                        LoadUsersData(connectionString);
+                        break;
+                    case "Teams":
+                        LoadTeamsData(connectionString);
+                        break;
+                    case "Projets":
+                        LoadProjectsData(connectionString);
+                        break;
+                    case "Tâches":
+                        LoadTasksData(connectionString);
+                        break;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Erreur lors du rafraîchissement: {ex.Message}", "Erreur",
+                              MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void LoadData()
+        {
+            string selectedNode = treeView.SelectedNode.Text;
+            string query = string.Empty;
+
+            if (selectedNode == "Projets")
+            {
+                query = "SELECT ProjectID, Title, Description, StartDate, EndDate, Status FROM Projects";
+            }
+            else if (selectedNode == "Tâches")
+            {
+                query = "SELECT TaskID, Title, Description, StartDate, DueDate, Status FROM Tasks";
+            }
+            else if (selectedNode == "Employees")
+            {
+                query = "SELECT UserID, Username, Email, Role, PhoneNumber FROM Users";
+            }
+            else if (selectedNode == "Groups")
+            {
+                query = "SELECT TeamID, Name, LeaderID FROM Teams";
+            }
+
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                try
+                {
+                    SqlDataAdapter adapter = new SqlDataAdapter(query, conn);
+                    DataTable dt = new DataTable();
+                    adapter.Fill(dt);
+                    dataGridView.DataSource = dt;
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Erreur lors du chargement des données : " + ex.Message);
+                }
+            }
+        }
+
+        private void treeView_AfterSelect(object sender, TreeViewEventArgs e)
+        {
+            if (e.Node.Text == "Employees")
+            {
+                LoadUsersData(connectionString);
+            }
+            else if (e.Node.Text == "Teams")
+            {
+                LoadTeamsData(connectionString);
+            }
+            else if (e.Node.Text == "Projets")
+            {
+                LoadProjectsData(connectionString);
+            }
+            else if (e.Node.Text == "Tâches")
+            {
+                LoadTasksData(connectionString);
+            }
+
+            UpdateTreeView();
+        }
+
+        private void LoadUsersData(string connectionString)
+        {
+            string query = "SELECT UserID, Username, Email, Role, IsActive FROM Users";
+            FillDataGridView(query, connectionString);
+        }
+
+        private void LoadTeamsData(string connectionString)
+        {
+            string query = @"SELECT t.TeamID, t.Name, u.Username AS LeaderName 
+                            FROM Teams t
+                            LEFT JOIN Users u ON t.LeaderID = u.UserID";
+            FillDataGridView(query, connectionString);
+        }
+
+        private void LoadProjectsData(string connectionString)
+        {
+            string query = @"SELECT p.ProjectID, p.Title, p.Description, p.StartDate, p.EndDate, p.Status, 
+                           u.Username AS ManagerName 
+                           FROM Projects p
+                           LEFT JOIN Users u ON p.ManagerID = u.UserID";
+            FillDataGridView(query, connectionString);
+        }
+
+        private void LoadTasksData(string connectionString)
+        {
+            string query = @"SELECT t.TaskID, t.Title, t.Description, t.StartDate, t.DueDate, t.Status, 
+                           p.Title AS ProjectName, u.Username AS TeamLeadName
+                           FROM Tasks t
+                           LEFT JOIN Projects p ON t.ProjectID = p.ProjectID
+                           LEFT JOIN Users u ON t.TeamLeadID = u.UserID";
+            FillDataGridView(query, connectionString);
+        }
+
+        private void FillDataGridView(string query, string connectionString)
+        {
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                try
+                {
+                    SqlDataAdapter adapter = new SqlDataAdapter(query, connection);
+                    DataTable dt = new DataTable();
+                    adapter.Fill(dt);
+                    dataGridView.DataSource = dt;
+
+                    // Ajuster la largeur des colonnes automatiquement
+                    dataGridView.AutoResizeColumns(DataGridViewAutoSizeColumnsMode.AllCells);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show("Erreur lors du chargement des données: " + ex.Message);
+                }
+            }
+        }
+
+        private void UpdateTreeView()
+        {
+            // Récupérer les comptes depuis la base de données
+            Dictionary<string, int> counts = GetDatabaseCounts();
+
+            treeView.Nodes.Clear();
+
+            TreeNode employees = new TreeNode("Employees");
+            employees.Nodes.Add($"All ({counts["AllEmployees"]})");
+            employees.Nodes.Add($"On leave ({counts["OnLeaveEmployees"]})");
+
+            TreeNode projets = new TreeNode("Projets");
+            projets.Nodes.Add($"En cours ({counts["ActiveProjects"]})");
+            projets.Nodes.Add($"Terminés ({counts["CompletedProjects"]})");
+
+            TreeNode groups = new TreeNode("Teams");
+            groups.Nodes.Add($"Actives ({counts["ActiveTeams"]})");
+
+            TreeNode taches = new TreeNode("Tâches");
+            taches.Nodes.Add($"À faire ({counts["TodoTasks"]})");
+            taches.Nodes.Add($"En cours ({counts["InProgressTasks"]})");
+            taches.Nodes.Add($"Terminées ({counts["CompletedTasks"]})");
+
+            treeView.Nodes.Add(employees);
+            treeView.Nodes.Add(projets);
+            treeView.Nodes.Add(groups);
+            treeView.Nodes.Add(taches);
+
+            treeView.ExpandAll();
+        }
+
+        private Dictionary<string, int> GetDatabaseCounts()
+        {
+            Dictionary<string, int> counts = new Dictionary<string, int>();
 
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
                 conn.Open();
-                string query = "SELECT ProjectID, Title, Description, StartDate, EndDate FROM Projects";
+
+                // Compter les employés
+                string employeeQuery = @"SELECT 
+                              COUNT(*) AS AllEmployees,
+                              SUM(CASE WHEN IsActive = 0 THEN 1 ELSE 0 END) AS OnLeaveEmployees
+                              FROM Users";
+
+                using (SqlCommand cmd = new SqlCommand(employeeQuery, conn))
+                {
+                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        if (reader.Read())
+                        {
+                            counts["AllEmployees"] = reader.GetInt32(0);
+                            counts["OnLeaveEmployees"] = reader.GetInt32(1);
+                        }
+                    }
+                }
+
+                // Compter les projets (en utilisant les statuts de votre base)
+                string projectQuery = @"SELECT 
+                             SUM(CASE WHEN Status = 'En cours' THEN 1 ELSE 0 END) AS ActiveProjects,
+                             SUM(CASE WHEN Status = 'Terminé' THEN 1 ELSE 0 END) AS CompletedProjects
+                             FROM Projects";
+
+                using (SqlCommand cmd = new SqlCommand(projectQuery, conn))
+                {
+                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        if (reader.Read())
+                        {
+                            counts["ActiveProjects"] = reader.GetInt32(0);
+                            counts["CompletedProjects"] = reader.GetInt32(1);
+                        }
+                    }
+                }
+
+                // Compter les équipes
+                string teamQuery = "SELECT COUNT(*) FROM Teams";
+                using (SqlCommand cmd = new SqlCommand(teamQuery, conn))
+                {
+                    counts["ActiveTeams"] = (int)cmd.ExecuteScalar();
+                }
+
+                // Compter les tâches (en utilisant les statuts de votre base)
+                string taskQuery = @"SELECT 
+                           SUM(CASE WHEN Status = 'En attente' THEN 1 ELSE 0 END) AS TodoTasks,
+                           SUM(CASE WHEN Status = 'En cours' THEN 1 ELSE 0 END) AS InProgressTasks,
+                           SUM(CASE WHEN Status = 'Terminée' THEN 1 ELSE 0 END) AS CompletedTasks
+                           FROM Tasks";
+
+                using (SqlCommand cmd = new SqlCommand(taskQuery, conn))
+                {
+                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        if (reader.Read())
+                        {
+                            counts["TodoTasks"] = reader.GetInt32(0);
+                            counts["InProgressTasks"] = reader.GetInt32(1);
+                            counts["CompletedTasks"] = reader.GetInt32(2);
+                        }
+                    }
+                }
+            }
+
+            return counts;
+        }
+        #endregion
+
+        #region Fonctions de Rapport et Notification
+
+
+        #endregion
+
+        #region Fonctions d'Accès aux Données
+        private List<Project> GetAllProjects()
+        {
+            List<Project> projects = new List<Project>();
+
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                conn.Open();
+                string query = "SELECT ProjectID, Title, Description, StartDate, EndDate, Status, ManagerID FROM Projects";
 
                 using (SqlCommand cmd = new SqlCommand(query, conn))
                 {
@@ -247,7 +551,8 @@ namespace FatiIkhlassYoun
                                 Description = reader.GetString(2),
                                 StartDate = reader.GetDateTime(3),
                                 EndDate = reader.GetDateTime(4),
-                                ManagerID = reader.GetInt32(0)
+                                Status = reader.GetString(5),
+                                ManagerID = reader.GetInt32(6)
                             });
                         }
                     }
@@ -256,13 +561,13 @@ namespace FatiIkhlassYoun
 
             return projects;
         }
+
         private dynamic GetProjectInfo(int projectId)
         {
-            string connectionString = "Server=DESKTOP-78OLGDN;Database=ProjectManagementSystem;Integrated Security=True;";
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
                 conn.Open();
-                string query = "SELECT Title, Description, StartDate, EndDate FROM Projects WHERE ProjectID = @ProjectID";
+                string query = "SELECT Title, Description, StartDate, EndDate, Status FROM Projects WHERE ProjectID = @ProjectID";
                 using (SqlCommand cmd = new SqlCommand(query, conn))
                 {
                     cmd.Parameters.AddWithValue("@ProjectID", projectId);
@@ -275,7 +580,8 @@ namespace FatiIkhlassYoun
                                 Title = reader["Title"].ToString(),
                                 Description = reader["Description"].ToString(),
                                 StartDate = Convert.ToDateTime(reader["StartDate"]),
-                                EndDate = Convert.ToDateTime(reader["EndDate"])
+                                EndDate = Convert.ToDateTime(reader["EndDate"]),
+                                Status = reader["Status"].ToString()
                             };
                         }
                     }
@@ -283,10 +589,10 @@ namespace FatiIkhlassYoun
             }
             return null;
         }
+
         private List<dynamic> GetProjectTasks(int projectId)
         {
             var list = new List<dynamic>();
-            string connectionString = "Server=DESKTOP-78OLGDN;Database=ProjectManagementSystem;Integrated Security=True;";
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
                 conn.Open();
@@ -310,20 +616,20 @@ namespace FatiIkhlassYoun
             }
             return list;
         }
+
         private List<dynamic> GetProjectUsers(int projectId)
         {
             var list = new List<dynamic>();
-            string connectionString = "Server=DESKTOP-78OLGDN;Database=ProjectManagementSystem;Integrated Security=True;";
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
                 conn.Open();
                 string query = @"
-            SELECT u.Username, u.Email, u.Role
-            FROM Task_Assignments ta
-            JOIN Tasks t ON ta.TaskID = t.TaskID
-            JOIN Users u ON ta.UserID = u.UserID
-            WHERE t.ProjectID = @ProjectID
-            GROUP BY u.Username, u.Email, u.Role";
+                    SELECT u.Username, u.Email, u.Role
+                    FROM Task_Assignments ta
+                    JOIN Tasks t ON ta.TaskID = t.TaskID
+                    JOIN Users u ON ta.UserID = u.UserID
+                    WHERE t.ProjectID = @ProjectID
+                    GROUP BY u.Username, u.Email, u.Role";
 
                 using (SqlCommand cmd = new SqlCommand(query, conn))
                 {
@@ -344,47 +650,21 @@ namespace FatiIkhlassYoun
             }
             return list;
         }
-        private void cuiButtonTasks_Click(object sender, EventArgs e)
+        #endregion
+
+        #region Classes Internes
+        internal class FormDashboardProgress : Form
         {
-            FormDashboardProgress dashboardProgressForm = new FormDashboardProgress();
-            dashboardProgressForm.Show();
+            // Implémentation de la classe FormDashboardProgress
+            public FormDashboardProgress()
+            {
+                this.Text = "Tableau de Bord de Progression";
+                this.Size = new Size(800, 600);
+
+                // Ajoutez ici les contrôles pour votre tableau de bord de progression
+            }
         }
 
-
-        private void cuiButtonDelete_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void cuiButtonEdit_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void panelsup2_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-        private void panelSup_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-        private void contextMenuAdd_Opening(object sender, CancelEventArgs e)
-        {
-
-        }
-
-        private void addEmployeeToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            FormAddEmployee form = new FormAddEmployee();
-            form.Show();
-        }
-
-
-
-        private class AddEmployeeControl : Control
-        {
-        }
         public class ComboboxItem
         {
             public string Text { get; set; }
@@ -396,282 +676,796 @@ namespace FatiIkhlassYoun
             }
         }
 
-        private void addGroupToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            FormAddTeam form = new FormAddTeam();
-            form.Show();
+        private class AddEmployeeControl : Control { }
+        private class AddGroupControl : Control { }
+        private class EditformControl : Control { }
 
+        public class Project
+        {
+            public int ProjectID { get; set; }
+            public string Title { get; set; }
+            public string Description { get; set; }
+            public DateTime StartDate { get; set; }
+            public DateTime EndDate { get; set; }
+            public string Status { get; set; }
+            public int ManagerID { get; set; }
         }
+        #endregion
 
-        private class AddGroupControl : Control
+        private void editProjectInfoToolStripMenuItem_Click(object sender, EventArgs e)
         {
-        }
+            // Vérifier qu'une ligne est sélectionnée
+            if (dataGridView.SelectedRows.Count == 0)
+            {
+                MessageBox.Show("Veuillez sélectionner un projet à modifier",
+                              "Aucune sélection",
+                              MessageBoxButtons.OK,
+                              MessageBoxIcon.Warning);
+                return;
+            }
 
-        private void panel1_Paint_1(object sender, PaintEventArgs e)
-        {
-
-        }
-        private void label2_Click(object sender, EventArgs e)
-        {
-        }
-
-        private void RefreshCurrentView()
-        {
-            if (treeView.SelectedNode == null) return;
-
-            string connectionString = "Server=DESKTOP-78OLGDN;Database=ProjectManagementSystem;Integrated Security=True;";
+            // Vérifier que la colonne ProjectID existe
+            if (!dataGridView.Columns.Contains("ProjectID"))
+            {
+                MessageBox.Show("La colonne ProjectID est introuvable dans la vue",
+                              "Erreur de configuration",
+                              MessageBoxButtons.OK,
+                              MessageBoxIcon.Error);
+                return;
+            }
 
             try
             {
-                switch (treeView.SelectedNode.Text)
+                // Récupérer l'ID du projet
+                var selectedRow = dataGridView.SelectedRows[0];
+                var projectIdCell = selectedRow.Cells["ProjectID"];
+
+                if (projectIdCell.Value == null || projectIdCell.Value == DBNull.Value)
                 {
-                    case "Employees" or "Utilisateurs":
-                        LoadUsersData(connectionString);
-                        break;
-                    case "Groups" or "Équipes":
-                        LoadTeamsData(connectionString);
-                        break;
-                    case "Projets":
-                        LoadProjectsData(connectionString);
-                        break;
-                    case "Tâches":
-                        LoadTasksData(connectionString);
-                        break;
+                    MessageBox.Show("L'ID du projet est invalide",
+                                  "Donnée corrompue",
+                                  MessageBoxButtons.OK,
+                                  MessageBoxIcon.Error);
+                    return;
+                }
+
+                int projectId = Convert.ToInt32(projectIdCell.Value);
+
+                // Ouvrir le formulaire d'édition
+                using (FormEditProject form = new FormEditProject(projectId))
+                {
+                    if (form.ShowDialog() == DialogResult.OK)
+                    {
+                        RefreshCurrentView(); // Méthode pour rafraîchir la vue
+                    }
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Erreur lors du rafraîchissement: {ex.Message}", "Erreur",
-                              MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show($"Erreur lors de l'ouverture de l'éditeur : {ex.Message}",
+                              "Erreur",
+                              MessageBoxButtons.OK,
+                              MessageBoxIcon.Error);
             }
         }
 
-
-        internal class FormDashboardProgress : Form
+        private void cuiButtonProgress_Click(object sender, EventArgs e)
         {
-            // Ajout de la classe FormDashboardProgress héritant de Form pour résoudre l'erreur CS1061.
+            try
+            {
+                FormTaskStatistics statsForm = new FormTaskStatistics();
+                statsForm.Show(); // Ou ShowDialog() pour une fenêtre modale
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Erreur: {ex.Message}");
+            }
         }
 
-
-
-        private void LoadData()
+        private void editUserInfoToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            // Logique pour charger à nouveau les données en fonction du nœud sélectionné dans le TreeView
-            string selectedNode = treeView.SelectedNode.Text;
-
-            string connectionString = "Server=DESKTOP-78OLGDN;Database=ProjectManagementSystem;Integrated Security=True;";
-            string query = string.Empty;
-
-            if (selectedNode == "Projets")
+            // Vérifier qu'une ligne est sélectionnée
+            if (dataGridView.SelectedRows.Count == 0)
             {
-                query = "SELECT ProjectID, Title, Description, StartDate, EndDate, Status FROM Projects";
-            }
-            else if (selectedNode == "Tâches")
-            {
-                query = "SELECT TaskID, Title, Description, StartDate, DueDate, Status FROM Tasks";
-            }
-            else if (selectedNode == "Utilisateurs")
-            {
-                query = "SELECT UserID,Username, PasswordHash, Email, Role, PhoneNumber FROM Users";
+                MessageBox.Show("Veuillez sélectionner un employé à modifier",
+                              "Aucune sélection",
+                              MessageBoxButtons.OK,
+                              MessageBoxIcon.Warning);
+                return;
             }
 
-            else if (selectedNode == "équipes")
+            // Vérifier que la colonne UserID existe
+            if (!dataGridView.Columns.Contains("UserID"))
             {
-
-                query = "SELECT TeamID ,Name,LeaderID FROM Teams";
+                MessageBox.Show("La colonne UserID est introuvable dans la vue",
+                              "Erreur de configuration",
+                              MessageBoxButtons.OK,
+                              MessageBoxIcon.Error);
+                return;
             }
 
-
-            // Ajouter d'autres conditions pour d'autres catégories comme "Users", "Teams", etc.
-
-            using (SqlConnection conn = new SqlConnection(connectionString))
+            try
             {
-                try
+                // Récupérer l'ID de l'utilisateur
+                var selectedRow = dataGridView.SelectedRows[0];
+                var userIdCell = selectedRow.Cells["UserID"];
+
+                if (userIdCell.Value == null || userIdCell.Value == DBNull.Value)
                 {
-                    SqlDataAdapter adapter = new SqlDataAdapter(query, conn);
-                    DataTable dt = new DataTable();
-                    adapter.Fill(dt);
-                    dataGridView.DataSource = dt;
+                    MessageBox.Show("L'ID de l'utilisateur est invalide",
+                                  "Donnée corrompue",
+                                  MessageBoxButtons.OK,
+                                  MessageBoxIcon.Error);
+                    return;
                 }
-                catch (Exception ex)
+
+                int userId = Convert.ToInt32(userIdCell.Value);
+
+                // Ouvrir le formulaire d'édition
+                using (FormEditEmployee form = new FormEditEmployee(userId))
                 {
-                    MessageBox.Show("Erreur lors du chargement des données : " + ex.Message);
-                }
-            }
-        }
+                    if (form.ShowDialog() == DialogResult.OK)
+                    {
+                        RefreshCurrentView(); // Méthode pour rafraîchir la vue
 
-        private void treeView_AfterSelect(object sender, TreeViewEventArgs e)
-        {
-            // Vérification du nœud sélectionné et chargement des données
-            string connectionString = "Server=DESKTOP-78OLGDN;Database=ProjectManagementSystem;Integrated Security=True;";
-
-            if (e.Node.Text == "Employees")
-            {
-                LoadUsersData(connectionString);
-            }
-            else if (e.Node.Text == "Groups")
-            {
-                LoadTeamsData(connectionString);
-            }
-            else if (e.Node.Text == "Projets")
-            {
-                LoadProjectsData(connectionString);
-            }
-            else if (e.Node.Text == "Tâches")
-            {
-                LoadTasksData(connectionString);
-            }
-
-            // Mise à jour de l'arborescence du TreeView
-            UpdateTreeView();
-        }
-
-        private void LoadUsersData(string connectionString)
-        {
-            string query = "SELECT UserID, Username, Email, Role, IsActive FROM Users";
-            FillDataGridView(query, connectionString);
-        }
-
-        private void LoadTeamsData(string connectionString)
-        {
-            string query = "SELECT TeamID, Name, LeaderID FROM Teams";
-            FillDataGridView(query, connectionString);
-        }
-
-        private void LoadProjectsData(string connectionString)
-        {
-            string query = "SELECT ProjectID, Title, Description, StartDate, EndDate, Status, ManagerID FROM Projects";
-            FillDataGridView(query, connectionString);
-        }
-
-        private void LoadTasksData(string connectionString)
-        {
-            string query = "SELECT TaskID, ProjectID, Title, Description, StartDate, DueDate, Status, EstimatedTime, TeamLeadID FROM Tasks";
-            FillDataGridView(query, connectionString);
-        }
-
-        private void FillDataGridView(string query, string connectionString)
-        {
-            using (SqlConnection connection = new SqlConnection(connectionString))
-            {
-                try
-                {
-                    SqlDataAdapter adapter = new SqlDataAdapter(query, connection);
-                    DataTable dt = new DataTable();
-                    adapter.Fill(dt);
-                    dataGridView.DataSource = dt;
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show("Erreur lors du chargement des données: " + ex.Message);
+                        // Optionnel: Resélectionner l'utilisateur modifié
+                        foreach (DataGridViewRow row in dataGridView.Rows)
+                        {
+                            if (Convert.ToInt32(row.Cells["UserID"].Value) == userId)
+                            {
+                                row.Selected = true;
+                                break;
+                            }
+                        }
+                    }
                 }
             }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Erreur lors de l'ouverture de l'éditeur : {ex.Message}",
+                              "Erreur",
+                              MessageBoxButtons.OK,
+                              MessageBoxIcon.Error);
+            }
         }
 
-        private void UpdateTreeView()
+        private void editTeamInfoToolStripMenuItem_Click_1(object sender, EventArgs e)
         {
-            // Effacer les anciens nœuds du TreeView
-            treeView.Nodes.Clear();
+            // Vérifier qu'une ligne est sélectionnée dans le DataGridView
+            if (dataGridView.SelectedRows.Count == 0)
+            {
+                MessageBox.Show("Veuillez sélectionner une équipe à modifier",
+                              "Aucune sélection",
+                              MessageBoxButtons.OK,
+                              MessageBoxIcon.Warning);
+                return;
+            }
 
-            // Ajouter des catégories au TreeView
-            TreeNode employees = new TreeNode("Employees");
-            employees.Nodes.Add("All (30)");
-            employees.Nodes.Add("On leave (5)");
-            employees.Nodes.Add("Sous-Traitants (3)");
+            // Vérifier que la colonne TeamID existe
+            if (!dataGridView.Columns.Contains("TeamID"))
+            {
+                MessageBox.Show("La colonne TeamID est introuvable dans la vue",
+                              "Erreur de configuration",
+                              MessageBoxButtons.OK,
+                              MessageBoxIcon.Error);
+                return;
+            }
 
-            TreeNode projets = new TreeNode("Projets");
-            projets.Nodes.Add("Chef de projets (5)");
+            try
+            {
+                // Récupérer l'ID de l'équipe sélectionnée
+                DataGridViewRow selectedRow = dataGridView.SelectedRows[0];
+                var teamIdCell = selectedRow.Cells["TeamID"];
 
-            TreeNode groups = new TreeNode("Groups");
-            groups.Nodes.Add("Chef d'équipes (8)");
+                if (teamIdCell.Value == null || teamIdCell.Value == DBNull.Value)
+                {
+                    MessageBox.Show("L'ID de l'équipe est invalide",
+                                  "Donnée corrompue",
+                                  MessageBoxButtons.OK,
+                                  MessageBoxIcon.Error);
+                    return;
+                }
 
-            TreeNode taches = new TreeNode("Tâches");
-            taches.Nodes.Add("Tâches sous-traitants (8)");
-            taches.Nodes.Add("Tâches internes (8)");
-            taches.Nodes.Add("Tâches externes (5)");
+                int teamId = Convert.ToInt32(teamIdCell.Value);
 
-            // Ajout des nœuds au TreeView
-            treeView.Nodes.Add(employees);
-            treeView.Nodes.Add(projets);
-            treeView.Nodes.Add(groups);
-            treeView.Nodes.Add(taches);
+                // Ouvrir le formulaire d'édition
+                using (FormEditTeam editForm = new FormEditTeam(teamId))
+                {
+                    if (editForm.ShowDialog() == DialogResult.OK)
+                    {
+                        // Rafraîchir la vue après modification
+                        RefreshCurrentView();
 
-            // Déplier tous les nœuds
-            treeView.ExpandAll();
+                        // Resélectionner l'équipe modifiée
+                        foreach (DataGridViewRow row in dataGridView.Rows)
+                        {
+                            if (Convert.ToInt32(row.Cells["TeamID"].Value) == teamId)
+                            {
+                                row.Selected = true;
+                                dataGridView.FirstDisplayedScrollingRowIndex = row.Index;
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Erreur lors de l'édition de l'équipe : {ex.Message}",
+                              "Erreur",
+                              MessageBoxButtons.OK,
+                              MessageBoxIcon.Error);
+            }
         }
 
-        private void toolStripComboBox1_Click(object sender, EventArgs e)
+        private void cuiButtonDelete_Click_1(object sender, EventArgs e)
+        {
+            contextMenuDelete.Show(cuiButtonDelete, new Point(cuiButtonDelete.Width, 0));
+        }
+
+        private void deleteEmployeeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            // Vérifier qu'une ligne est sélectionnée dans le DataGridView
+            if (dataGridView.SelectedRows.Count == 0)
+            {
+                MessageBox.Show("Veuillez sélectionner un employé à supprimer.",
+                                "Aucune sélection",
+                                MessageBoxButtons.OK,
+                                MessageBoxIcon.Warning);
+                return;
+            }
+
+            // Récupérer les valeurs sélectionnées
+            DataGridViewRow selectedRow = dataGridView.SelectedRows[0];
+
+            if (selectedRow.Cells["UserID"].Value == null || selectedRow.Cells["Username"].Value == null)
+            {
+                MessageBox.Show("L'utilisateur sélectionné est invalide.",
+                                "Erreur de données",
+                                MessageBoxButtons.OK,
+                                MessageBoxIcon.Error);
+                return;
+            }
+
+            int userId = Convert.ToInt32(selectedRow.Cells["UserID"].Value);
+            string username = selectedRow.Cells["Username"].Value.ToString();
+
+            // Confirmation utilisateur
+            DialogResult result = MessageBox.Show($"Êtes-vous sûr de vouloir supprimer définitivement l'employé '{username}' ?",
+                                                  "Confirmation de suppression",
+                                                  MessageBoxButtons.YesNo,
+                                                  MessageBoxIcon.Warning);
+
+            if (result != DialogResult.Yes) return;
+
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(connectionString))
+                {
+                    conn.Open();
+
+                    // Vérifier toutes les relations qui pourraient empêcher la suppression
+                    string checkRelationsQuery = @"
+                SELECT 
+                    (SELECT COUNT(*) FROM Teams WHERE LeaderID = @UserID) +
+                    (SELECT COUNT(*) FROM Projects WHERE ManagerID = @UserID) +
+                    (SELECT COUNT(*) FROM Task_Assignments WHERE UserID = @UserID) +
+                    (SELECT COUNT(*) FROM TeamMembers WHERE UserID = @UserID) +
+                    (SELECT COUNT(*) FROM TaskAssignmentHistory WHERE UserID = @UserID) +
+                    (SELECT COUNT(*) FROM MessageLog WHERE SenderID = @UserID OR RecipientID = @UserID) +
+                    (SELECT COUNT(*) FROM Notifications WHERE UserID = @UserID) +
+                    (SELECT COUNT(*) FROM ProgressReports WHERE UserID = @UserID)";
+
+                    using (SqlCommand checkCmd = new SqlCommand(checkRelationsQuery, conn))
+                    {
+                        checkCmd.Parameters.AddWithValue("@UserID", userId);
+                        int totalReferences = (int)checkCmd.ExecuteScalar();
+
+                        if (totalReferences > 0)
+                        {
+
+                            
+                            
+                          // Supprimer d'abord toutes les références
+                            string deleteReferencesQuery = @"
+                                DELETE FROM Task_Assignments WHERE UserID = @UserID;
+                                DELETE FROM TeamMembers WHERE UserID = @UserID;
+                                DELETE FROM TaskAssignmentHistory WHERE UserID = @UserID;
+                                DELETE FROM MessageLog WHERE SenderID = @UserID OR RecipientID = @UserID;
+                                DELETE FROM Notifications WHERE UserID = @UserID;
+                                DELETE FROM ProgressReports WHERE UserID = @UserID;";
+
+                            using (SqlCommand deleteRefCmd = new SqlCommand(deleteReferencesQuery, conn))
+                            {
+                                deleteRefCmd.Parameters.AddWithValue("@UserID", userId);
+                                deleteRefCmd.ExecuteNonQuery();
+                            }
+                            
+                        }
+                    }
+
+                    // Supprimer définitivement l'utilisateur
+                    string deleteQuery = "DELETE FROM Users WHERE UserID = @UserID";
+
+                    using (SqlCommand deleteCmd = new SqlCommand(deleteQuery, conn))
+                    {
+                        deleteCmd.Parameters.AddWithValue("@UserID", userId);
+                        int rowsAffected = deleteCmd.ExecuteNonQuery();
+
+                        if (rowsAffected > 0)
+                        {
+                            MessageBox.Show("L'employé a été supprimé définitivement.",
+                                            "Succès",
+                                            MessageBoxButtons.OK,
+                                            MessageBoxIcon.Information);
+                            RefreshCurrentView();
+                        }
+                        else
+                        {
+                            MessageBox.Show("Aucune modification effectuée. L'utilisateur pourrait déjà être supprimé.",
+                                            "Information",
+                                            MessageBoxButtons.OK,
+                                            MessageBoxIcon.Information);
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Erreur lors de la suppression de l'employé :\n{ex.Message}",
+                                "Erreur",
+                                MessageBoxButtons.OK,
+                                MessageBoxIcon.Error);
+            }
+        }
+
+
+
+
+        private void contextMenuDelete_Opening(object sender, CancelEventArgs e)
         {
 
         }
 
-        private void AddProjettoolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            FormAddProject formAddProject = new FormAddProject();
-            formAddProject.Show(); // Ouvre le formulaire en mode non-bloquant
-        }
-
-        private void AddTasktoolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            // Ouvre le formulaire d'ajout de tâche
-            FormAddTask formAddTask = new FormAddTask();
-            formAddTask.Show(); // Ouverture du formulaire sans avoir besoin de rafraîchir les tâches
-
-            // Il n'est pas nécessaire de gérer les DataGridView ou de recharger les tâches ici
-        }
-        internal class EditformControl : Control
-        {
-        }
-
-        private void LoadInitialData()
-        {
-            string connectionString = "Server=DESKTOP-78OLGDN;Database=ProjectManagementSystem;Integrated Security=True;";
-            LoadUsersData(connectionString);
-        }
-
-
-
-        private void button2_Click(object sender, EventArgs e)
+        private void dataGridView_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
 
         }
 
-        private void cuiButtonEdit_Click_1(object sender, EventArgs e)
+        private void deleteProjectToolStripMenuItem_Click(object sender, EventArgs e)
         {
+            if (dataGridView.SelectedRows.Count == 0)
+            {
+                MessageBox.Show("Veuillez sélectionner un projet à supprimer",
+                                "Aucune sélection",
+                                MessageBoxButtons.OK,
+                                MessageBoxIcon.Warning);
+                return;
+            }
 
+            // Vérification des colonnes nécessaires
+            if (!dataGridView.Columns.Contains("ProjectID") || !dataGridView.Columns.Contains("Title"))
+            {
+                MessageBox.Show("Les colonnes nécessaires (ProjectID, Title) sont manquantes.",
+                                "Erreur de configuration",
+                                MessageBoxButtons.OK,
+                                MessageBoxIcon.Error);
+                return;
+            }
+
+            int projectId = Convert.ToInt32(dataGridView.SelectedRows[0].Cells["ProjectID"].Value);
+            string projectTitle = dataGridView.SelectedRows[0].Cells["Title"].Value.ToString();
+
+            // Vérifier s'il y a des tâches non terminées
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(connectionString))
+                {
+                    conn.Open();
+                    using (SqlCommand checkCmd = new SqlCommand(
+                        "SELECT COUNT(*) FROM Tasks WHERE ProjectID = @ProjectID AND Status != 'Terminée'", conn))
+                    {
+                        checkCmd.Parameters.AddWithValue("@ProjectID", projectId);
+                        int activeTasks = (int)checkCmd.ExecuteScalar();
+
+                        if (activeTasks > 0)
+                        {
+                            MessageBox.Show("Ce projet contient des tâches actives.\n" +
+                                            "Veuillez terminer ou réaffecter les tâches avant de supprimer le projet.",
+                                            "Suppression impossible",
+                                            MessageBoxButtons.OK,
+                                            MessageBoxIcon.Warning);
+                            return;
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Erreur lors de la vérification des tâches actives :\n{ex.Message}",
+                                "Erreur",
+                                MessageBoxButtons.OK,
+                                MessageBoxIcon.Error);
+                return;
+            }
+
+            // Confirmation de suppression
+            DialogResult result = MessageBox.Show($"Êtes-vous sûr de vouloir supprimer le projet '{projectTitle}' ?",
+                                                  "Confirmation de suppression",
+                                                  MessageBoxButtons.YesNo,
+                                                  MessageBoxIcon.Warning);
+
+            if (result != DialogResult.Yes)
+                return;
+
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(connectionString))
+                {
+                    conn.Open();
+                    using (SqlTransaction transaction = conn.BeginTransaction())
+                    {
+                        try
+                        {
+                            // 1. Supprimer d'abord tous les rapports liés au projet
+                            using (SqlCommand deleteReports = new SqlCommand(
+                                "DELETE FROM Reports WHERE ProjectID = @ProjectID", conn, transaction))
+                            {
+                                deleteReports.Parameters.AddWithValue("@ProjectID", projectId);
+                                deleteReports.ExecuteNonQuery();
+                            }
+
+                            // 2. Supprimer les tâches sous-traitées liées au projet
+                            using (SqlCommand deleteSubcontractedTasks = new SqlCommand(
+                                "DELETE FROM SubcontractedTasks WHERE TaskID IN (SELECT TaskID FROM Tasks WHERE ProjectID = @ProjectID)",
+                                conn, transaction))
+                            {
+                                deleteSubcontractedTasks.Parameters.AddWithValue("@ProjectID", projectId);
+                                deleteSubcontractedTasks.ExecuteNonQuery();
+                            }
+
+                            // 3. Supprimer les assignations de tâches liées au projet
+                            using (SqlCommand deleteTaskAssignments = new SqlCommand(
+                                "DELETE FROM Task_Assignments WHERE TaskID IN (SELECT TaskID FROM Tasks WHERE ProjectID = @ProjectID)",
+                                conn, transaction))
+                            {
+                                deleteTaskAssignments.Parameters.AddWithValue("@ProjectID", projectId);
+                                deleteTaskAssignments.ExecuteNonQuery();
+                            }
+
+                            // 4. Supprimer les tâches du projet
+                            using (SqlCommand deleteTasks = new SqlCommand(
+                                "DELETE FROM Tasks WHERE ProjectID = @ProjectID", conn, transaction))
+                            {
+                                deleteTasks.Parameters.AddWithValue("@ProjectID", projectId);
+                                deleteTasks.ExecuteNonQuery();
+                            }
+
+                            // 5. Supprimer les équipes liées à ce projet
+                            using (SqlCommand deleteTeams = new SqlCommand(
+                                "DELETE FROM Teams WHERE ProjectID = @ProjectID", conn, transaction))
+                            {
+                                deleteTeams.Parameters.AddWithValue("@ProjectID", projectId);
+                                deleteTeams.ExecuteNonQuery();
+                            }
+
+                            // 6. Supprimer le projet lui-même
+                            using (SqlCommand deleteProject = new SqlCommand(
+                                "DELETE FROM Projects WHERE ProjectID = @ProjectID", conn, transaction))
+                            {
+                                deleteProject.Parameters.AddWithValue("@ProjectID", projectId);
+                                int rowsAffected = deleteProject.ExecuteNonQuery();
+
+                                if (rowsAffected > 0)
+                                {
+                                    transaction.Commit();
+                                    MessageBox.Show("Projet supprimé avec succès !",
+                                                    "Succès",
+                                                    MessageBoxButtons.OK,
+                                                    MessageBoxIcon.Information);
+                                    RefreshCurrentView();
+                                }
+                                else
+                                {
+                                    transaction.Rollback();
+                                    MessageBox.Show("Aucun projet n'a été supprimé. Le projet est peut-être déjà supprimé.",
+                                                    "Information",
+                                                    MessageBoxButtons.OK,
+                                                    MessageBoxIcon.Information);
+                                }
+                            }
+                        }
+                        catch (SqlException sqlEx)
+                        {
+                            transaction.Rollback();
+                            string errorMessage = "Erreur lors de la suppression du projet:\n";
+
+                            if (sqlEx.Number == 547) // Violation de contrainte de clé étrangère
+                            {
+                                errorMessage += "Il reste des dépendances non gérées pour ce projet.\n";
+                                errorMessage += "Message technique: " + sqlEx.Message;
+                            }
+                            else
+                            {
+                                errorMessage += sqlEx.Message;
+                            }
+
+                            MessageBox.Show(errorMessage,
+                                          "Erreur",
+                                          MessageBoxButtons.OK,
+                                          MessageBoxIcon.Error);
+                        }
+                        catch (Exception ex)
+                        {
+                            transaction.Rollback();
+                            MessageBox.Show($"Erreur lors de la suppression :\n{ex.Message}",
+                                            "Erreur",
+                                            MessageBoxButtons.OK,
+                                            MessageBoxIcon.Error);
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Erreur de connexion :\n{ex.Message}",
+                                "Erreur",
+                                MessageBoxButtons.OK,
+                                MessageBoxIcon.Error);
+            }
         }
 
-        private void contextMenuEdit_Opening(object sender, CancelEventArgs e)
+
+        private void deleteTaskToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            contextMenuEdit.Show(cuiButtonEdit, new Point(0, cuiButtonEdit.Height));
+            if (dataGridView.SelectedRows.Count == 0)
+            {
+                MessageBox.Show("Veuillez sélectionner une tâche à supprimer",
+                                "Aucune sélection",
+                                MessageBoxButtons.OK,
+                                MessageBoxIcon.Warning);
+                return;
+            }
+
+            // Vérification des colonnes nécessaires
+            if (!dataGridView.Columns.Contains("TaskID") || !dataGridView.Columns.Contains("Title"))
+            {
+                MessageBox.Show("Les colonnes nécessaires (TaskID, Title) sont manquantes.",
+                                "Erreur de configuration",
+                                MessageBoxButtons.OK,
+                                MessageBoxIcon.Error);
+                return;
+            }
+
+            int taskId = Convert.ToInt32(dataGridView.SelectedRows[0].Cells["TaskID"].Value);
+            string taskTitle = dataGridView.SelectedRows[0].Cells["Title"].Value.ToString();
+
+            DialogResult result = MessageBox.Show($"Êtes-vous sûr de vouloir supprimer la tâche '{taskTitle}' ?",
+                                                  "Confirmation de suppression",
+                                                  MessageBoxButtons.YesNo,
+                                                  MessageBoxIcon.Warning);
+
+            if (result != DialogResult.Yes)
+                return;
+
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(connectionString))
+                {
+                    conn.Open();
+                    using (SqlTransaction transaction = conn.BeginTransaction())
+                    {
+                        try
+                        {
+                            // Supprimer les assignations de la tâche
+                            using (SqlCommand deleteAssignments = new SqlCommand(
+                                "DELETE FROM Task_Assignments WHERE TaskID = @TaskID", conn, transaction))
+                            {
+                                deleteAssignments.Parameters.AddWithValue("@TaskID", taskId);
+                                deleteAssignments.ExecuteNonQuery();
+                            }
+
+                            // Supprimer les sous-tâches sous-traitées (le cas échéant)
+                            using (SqlCommand deleteSubcontracted = new SqlCommand(
+                                "DELETE FROM SubcontractedTasks WHERE TaskID = @TaskID", conn, transaction))
+                            {
+                                deleteSubcontracted.Parameters.AddWithValue("@TaskID", taskId);
+                                deleteSubcontracted.ExecuteNonQuery();
+                            }
+
+                            // Supprimer la tâche principale
+                            using (SqlCommand deleteTask = new SqlCommand(
+                                "DELETE FROM Tasks WHERE TaskID = @TaskID", conn, transaction))
+                            {
+                                deleteTask.Parameters.AddWithValue("@TaskID", taskId);
+                                int rowsAffected = deleteTask.ExecuteNonQuery();
+
+                                if (rowsAffected > 0)
+                                {
+                                    transaction.Commit();
+                                    MessageBox.Show("Tâche supprimée avec succès !",
+                                                    "Succès",
+                                                    MessageBoxButtons.OK,
+                                                    MessageBoxIcon.Information);
+                                    RefreshCurrentView();
+                                }
+                                else
+                                {
+                                    transaction.Rollback();
+                                    MessageBox.Show("Aucune tâche n’a été supprimée. La tâche est peut-être déjà supprimée.",
+                                                    "Échec",
+                                                    MessageBoxButtons.OK,
+                                                    MessageBoxIcon.Warning);
+                                }
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            transaction.Rollback();
+                            MessageBox.Show($"Erreur lors de la suppression de la tâche :\n{ex.Message}",
+                                            "Erreur",
+                                            MessageBoxButtons.OK,
+                                            MessageBoxIcon.Error);
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Erreur de connexion ou de transaction :\n{ex.Message}",
+                                "Erreur",
+                                MessageBoxButtons.OK,
+                                MessageBoxIcon.Error);
+            }
         }
 
-        private void editTaskInfoToolStripMenuItem_Click(object sender, EventArgs e)
+
+
+        private void deleteTeamToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            FormEditTask form = new FormEditTask();
-            form.Show();
+            if (dataGridView.SelectedRows.Count == 0)
+            {
+                MessageBox.Show("Veuillez sélectionner une équipe à supprimer",
+                                "Aucune sélection",
+                                MessageBoxButtons.OK,
+                                MessageBoxIcon.Warning);
+                return;
+            }
+
+            // Vérifier que les colonnes existent
+            if (!dataGridView.Columns.Contains("TeamID") || !dataGridView.Columns.Contains("Name"))
+            {
+                MessageBox.Show("Les colonnes nécessaires (TeamID, Name) sont manquantes.",
+                                "Erreur de configuration",
+                                MessageBoxButtons.OK,
+                                MessageBoxIcon.Error);
+                return;
+            }
+
+            int teamId = Convert.ToInt32(dataGridView.SelectedRows[0].Cells["TeamID"].Value);
+            string teamName = dataGridView.SelectedRows[0].Cells["Name"].Value.ToString();
+
+            // Vérifier s’il y a des tâches actives liées à cette équipe
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(connectionString))
+                {
+                    conn.Open();
+                    using (SqlCommand checkCmd = new SqlCommand(@"
+                SELECT COUNT(*) FROM Task_Assignments ta
+                JOIN TeamMembers tm ON ta.UserID = tm.UserID
+                JOIN Tasks t ON ta.TaskID = t.TaskID
+                WHERE tm.TeamID = @TeamID AND t.Status != 'Terminée'", conn))
+                    {
+                        checkCmd.Parameters.AddWithValue("@TeamID", teamId);
+                        int activeTasks = (int)checkCmd.ExecuteScalar();
+
+                        if (activeTasks > 0)
+                        {
+                            MessageBox.Show("Cette équipe est affectée à des tâches non terminées. " +
+                                            "Veuillez réaffecter ou clôturer ces tâches avant de supprimer l'équipe.",
+                                            "Suppression impossible",
+                                            MessageBoxButtons.OK,
+                                            MessageBoxIcon.Warning);
+                            return;
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Erreur lors de la vérification des tâches actives :\n{ex.Message}",
+                                "Erreur",
+                                MessageBoxButtons.OK,
+                                MessageBoxIcon.Error);
+                return;
+            }
+
+            DialogResult result = MessageBox.Show($"Êtes-vous sûr de vouloir supprimer l'équipe '{teamName}' ?",
+                                                  "Confirmation de suppression",
+                                                  MessageBoxButtons.YesNo,
+                                                  MessageBoxIcon.Warning);
+
+            if (result != DialogResult.Yes)
+                return;
+
+            // Suppression de l'équipe et de ses membres
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(connectionString))
+                {
+                    conn.Open();
+                    using (SqlTransaction transaction = conn.BeginTransaction())
+                    {
+                        try
+                        {
+                            // Supprimer les membres de l’équipe
+                            using (SqlCommand deleteMembers = new SqlCommand(
+                                "DELETE FROM TeamMembers WHERE TeamID = @TeamID", conn, transaction))
+                            {
+                                deleteMembers.Parameters.AddWithValue("@TeamID", teamId);
+                                deleteMembers.ExecuteNonQuery();
+                            }
+
+                            // Supprimer l’équipe elle-même
+                            using (SqlCommand deleteTeam = new SqlCommand(
+                                "DELETE FROM Teams WHERE TeamID = @TeamID", conn, transaction))
+                            {
+                                deleteTeam.Parameters.AddWithValue("@TeamID", teamId);
+                                int rowsAffected = deleteTeam.ExecuteNonQuery();
+
+                                if (rowsAffected > 0)
+                                {
+                                    transaction.Commit();
+                                    MessageBox.Show("Équipe supprimée avec succès !",
+                                                    "Succès",
+                                                    MessageBoxButtons.OK,
+                                                    MessageBoxIcon.Information);
+                                    RefreshCurrentView();
+                                }
+                                else
+                                {
+                                    transaction.Rollback();
+                                    MessageBox.Show("Aucune équipe n’a été supprimée. Elle est peut-être déjà supprimée.",
+                                                    "Échec",
+                                                    MessageBoxButtons.OK,
+                                                    MessageBoxIcon.Warning);
+                                }
+                            }
+                        }
+                        catch (Exception ex)
+                        {
+                            transaction.Rollback();
+                            MessageBox.Show($"Erreur lors de la suppression de l’équipe :\n{ex.Message}",
+                                            "Erreur",
+                                            MessageBoxButtons.OK,
+                                            MessageBoxIcon.Error);
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Erreur de connexion ou de transaction :\n{ex.Message}",
+                                "Erreur",
+                                MessageBoxButtons.OK,
+                                MessageBoxIcon.Error);
+            }
+        }
+
+        private void cuiButton1_Click(object sender, EventArgs e)
+        {
+            var result = MessageBox.Show("Êtes-vous sûr de vouloir vous déconnecter ?",
+                                   "Déconnexion",
+                                   MessageBoxButtons.YesNo,
+                                   MessageBoxIcon.Question);
+
+            if (result == DialogResult.Yes)
+            {
+                this.Close();
+                // Si vous avez un formulaire de login, vous pouvez l'ouvrir ici
+                // new LoginForm().Show();
+            }
         }
     }
-
-
 }
-
-
-      
-
-    
-
-
-
-       
-           
-       
-
-
-
-        
-
-
-
-
-    

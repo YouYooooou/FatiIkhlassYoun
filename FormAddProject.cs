@@ -102,7 +102,6 @@ namespace FatiIkhlassYoun
 
         private void FormAddProject_Load_1(object sender, EventArgs e)
         {
-
             // ➔ Remplir correctement la ComboBox des Statuts
             if (comboBoxStatus.Items.Count == 0)
             {
@@ -113,12 +112,13 @@ namespace FatiIkhlassYoun
                 comboBoxStatus.SelectedIndex = 0; // Sélectionne "En attente" par défaut
             }
 
-            // ➔ Remplir la ComboBox des Managers
+            // ➔ Remplir la ComboBox des Managers (uniquement les chefs de projet)
             string connectionString = ConfigurationManager.ConnectionStrings["cnx"].ConnectionString;
             using (SqlConnection con = new SqlConnection(connectionString))
             {
                 con.Open();
-                SqlCommand cmd = new SqlCommand("SELECT UserID, Username, Role FROM Users WHERE Role IN ('Chef de projet', 'Chef d''équipe', 'Admin')", con);
+                // Modification ici : on ne prend que les utilisateurs avec Role = 'chef_projet'
+                SqlCommand cmd = new SqlCommand("SELECT UserID, Username, Role FROM Users WHERE Role = 'chef_projet'", con);
                 SqlDataReader reader = cmd.ExecuteReader();
 
                 var managers = new List<KeyValuePair<int, string>>();
@@ -136,6 +136,16 @@ namespace FatiIkhlassYoun
                 comboBoxManager.DisplayMember = "Value"; // Ce qu'on affiche
                 comboBoxManager.ValueMember = "Key";     // Ce qu'on récupère
             }
+        }
+
+        private void comboBoxManager_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnCancel_Click(object sender, EventArgs e)
+        {
+            this.Close();
         }
     }
 }

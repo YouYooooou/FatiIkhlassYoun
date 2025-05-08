@@ -38,13 +38,14 @@
             comboBoxLeader = new ComboBox();
             comboBoxProject = new ComboBox();
             checkedListBoxMembers = new CheckedListBox();
+            btnCancel = new Button();
             SuspendLayout();
             // 
             // buttonSave
             // 
             buttonSave.BackColor = Color.LimeGreen;
             buttonSave.FlatStyle = FlatStyle.Flat;
-            buttonSave.Location = new Point(1763, 1019);
+            buttonSave.Location = new Point(1164, 975);
             buttonSave.Name = "buttonSave";
             buttonSave.Size = new Size(265, 113);
             buttonSave.TabIndex = 37;
@@ -66,7 +67,7 @@
             // 
             Title.AutoSize = true;
             Title.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
-            Title.Location = new Point(364, 344);
+            Title.Location = new Point(318, 344);
             Title.Name = "Title";
             Title.Size = new Size(139, 48);
             Title.TabIndex = 32;
@@ -74,7 +75,7 @@
             // 
             // txtTeamName
             // 
-            txtTeamName.Location = new Point(801, 337);
+            txtTeamName.Location = new Point(833, 337);
             txtTeamName.Name = "txtTeamName";
             txtTeamName.Size = new Size(360, 55);
             txtTeamName.TabIndex = 36;
@@ -83,7 +84,7 @@
             // 
             label2.AutoSize = true;
             label2.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
-            label2.Location = new Point(364, 633);
+            label2.Location = new Point(318, 633);
             label2.Name = "label2";
             label2.Size = new Size(296, 48);
             label2.TabIndex = 41;
@@ -93,7 +94,7 @@
             // 
             label7.AutoSize = true;
             label7.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
-            label7.Location = new Point(364, 476);
+            label7.Location = new Point(318, 476);
             label7.Name = "label7";
             label7.Size = new Size(260, 48);
             label7.TabIndex = 42;
@@ -103,7 +104,7 @@
             // 
             label3.AutoSize = true;
             label3.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
-            label3.Location = new Point(364, 800);
+            label3.Location = new Point(318, 239);
             label3.Name = "label3";
             label3.Size = new Size(342, 48);
             label3.TabIndex = 43;
@@ -112,7 +113,7 @@
             // comboBoxLeader
             // 
             comboBoxLeader.FormattingEnabled = true;
-            comboBoxLeader.Location = new Point(830, 468);
+            comboBoxLeader.Location = new Point(833, 468);
             comboBoxLeader.Name = "comboBoxLeader";
             comboBoxLeader.Size = new Size(360, 56);
             comboBoxLeader.TabIndex = 44;
@@ -120,7 +121,7 @@
             // comboBoxProject
             // 
             comboBoxProject.FormattingEnabled = true;
-            comboBoxProject.Location = new Point(845, 792);
+            comboBoxProject.Location = new Point(833, 239);
             comboBoxProject.Name = "comboBoxProject";
             comboBoxProject.Size = new Size(360, 56);
             comboBoxProject.TabIndex = 45;
@@ -133,12 +134,26 @@
             checkedListBoxMembers.Size = new Size(360, 112);
             checkedListBoxMembers.TabIndex = 46;
             // 
+            // btnCancel
+            // 
+            btnCancel.BackColor = Color.Red;
+            btnCancel.FlatStyle = FlatStyle.Flat;
+            btnCancel.Location = new Point(600, 975);
+            btnCancel.Margin = new Padding(10, 11, 10, 11);
+            btnCancel.Name = "btnCancel";
+            btnCancel.Size = new Size(267, 111);
+            btnCancel.TabIndex = 47;
+            btnCancel.Text = "Cancel";
+            btnCancel.UseVisualStyleBackColor = false;
+            btnCancel.Click += btnCancel_Click;
+            // 
             // FormAddTeam
             // 
             AutoScaleDimensions = new SizeF(20F, 48F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.ButtonHighlight;
-            ClientSize = new Size(2151, 1275);
+            ClientSize = new Size(1599, 1275);
+            Controls.Add(btnCancel);
             Controls.Add(checkedListBoxMembers);
             Controls.Add(comboBoxProject);
             Controls.Add(comboBoxLeader);
@@ -168,5 +183,6 @@
         private ComboBox comboBoxLeader;
         private ComboBox comboBoxProject;
         private CheckedListBox checkedListBoxMembers;
+        private Button btnCancel;
     }
 }

@@ -1,8 +1,6 @@
-﻿using CuoreUI.Controls.Charts;
-
-namespace CUI
+﻿namespace CUI
 {
-    internal class CUIChartPie : cuiChartPie
+    internal class CUIChartPie
     {
     }
 }

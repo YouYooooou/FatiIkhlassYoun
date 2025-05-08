@@ -43,15 +43,16 @@ namespace FatiIkhlassYoun
             label7 = new Label();
             label8 = new Label();
             comboBoxManager = new ComboBox();
+            btnCancel = new Button();
             SuspendLayout();
             // 
             // buttonSave
             // 
             buttonSave.BackColor = Color.LimeGreen;
             buttonSave.FlatStyle = FlatStyle.Flat;
-            buttonSave.Location = new Point(1819, 957);
+            buttonSave.Location = new Point(1141, 1119);
             buttonSave.Name = "buttonSave";
-            buttonSave.Size = new Size(265, 113);
+            buttonSave.Size = new Size(229, 96);
             buttonSave.TabIndex = 23;
             buttonSave.Text = "Save";
             buttonSave.UseVisualStyleBackColor = false;
@@ -172,13 +173,28 @@ namespace FatiIkhlassYoun
             comboBoxManager.Name = "comboBoxManager";
             comboBoxManager.Size = new Size(549, 56);
             comboBoxManager.TabIndex = 30;
+            comboBoxManager.SelectedIndexChanged += comboBoxManager_SelectedIndexChanged;
+            // 
+            // btnCancel
+            // 
+            btnCancel.BackColor = Color.Red;
+            btnCancel.FlatStyle = FlatStyle.Flat;
+            btnCancel.Location = new Point(809, 1119);
+            btnCancel.Margin = new Padding(9, 10, 9, 10);
+            btnCancel.Name = "btnCancel";
+            btnCancel.Size = new Size(229, 96);
+            btnCancel.TabIndex = 31;
+            btnCancel.Text = "Cancel";
+            btnCancel.UseVisualStyleBackColor = false;
+            btnCancel.Click += btnCancel_Click;
             // 
             // FormAddProject
             // 
             AutoScaleDimensions = new SizeF(20F, 48F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.ButtonHighlight;
-            ClientSize = new Size(2263, 1151);
+            ClientSize = new Size(1615, 1413);
+            Controls.Add(btnCancel);
             Controls.Add(comboBoxManager);
             Controls.Add(label8);
             Controls.Add(label7);
@@ -226,6 +242,7 @@ namespace FatiIkhlassYoun
         private Label label7;
         private Label label8;
         private ComboBox comboBoxManager;
+        private Button btnCancel;
 
         public object StartDate { get; private set; }
         public Label Description { get; private set; }

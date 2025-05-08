@@ -28,158 +28,175 @@
         /// </summary>
         private void InitializeComponent()
         {
-            checkedListBoxMembers = new CheckedListBox();
-            comboBoxProject = new ComboBox();
-            comboBoxLeader = new ComboBox();
-            label3 = new Label();
-            label7 = new Label();
-            label2 = new Label();
+            lblTeamName = new Label();
             txtTeamName = new TextBox();
-            Title = new Label();
+            lblProject = new Label();
+            cmbProject = new ComboBox();
+            lblLeader = new Label();
+            cmbLeader = new ComboBox();
+            lblMembers = new Label();
+            clbMembers = new CheckedListBox();
             label1 = new Label();
-            buttonAnnuler = new Button();
-            buttonCreateTask = new Button();
+            btnCancel = new Button();
+            buttonSave = new Button();
             SuspendLayout();
             // 
-            // checkedListBoxMembers
+            // lblTeamName
             // 
-            checkedListBoxMembers.FormattingEnabled = true;
-            checkedListBoxMembers.Location = new Point(716, 478);
-            checkedListBoxMembers.Name = "checkedListBoxMembers";
-            checkedListBoxMembers.Size = new Size(360, 112);
-            checkedListBoxMembers.TabIndex = 55;
-            // 
-            // comboBoxProject
-            // 
-            comboBoxProject.FormattingEnabled = true;
-            comboBoxProject.Location = new Point(728, 657);
-            comboBoxProject.Name = "comboBoxProject";
-            comboBoxProject.Size = new Size(360, 56);
-            comboBoxProject.TabIndex = 54;
-            // 
-            // comboBoxLeader
-            // 
-            comboBoxLeader.FormattingEnabled = true;
-            comboBoxLeader.Location = new Point(713, 333);
-            comboBoxLeader.Name = "comboBoxLeader";
-            comboBoxLeader.Size = new Size(360, 56);
-            comboBoxLeader.TabIndex = 53;
-            // 
-            // label3
-            // 
-            label3.AutoSize = true;
-            label3.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
-            label3.Location = new Point(247, 665);
-            label3.Name = "label3";
-            label3.Size = new Size(342, 48);
-            label3.TabIndex = 52;
-            label3.Text = "Project associated :";
-            // 
-            // label7
-            // 
-            label7.AutoSize = true;
-            label7.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
-            label7.Location = new Point(247, 341);
-            label7.Name = "label7";
-            label7.Size = new Size(260, 48);
-            label7.TabIndex = 51;
-            label7.Text = "Team Leader  :";
-            // 
-            // label2
-            // 
-            label2.AutoSize = true;
-            label2.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
-            label2.Location = new Point(247, 498);
-            label2.Name = "label2";
-            label2.Size = new Size(296, 48);
-            label2.TabIndex = 50;
-            label2.Text = "Team Members :";
+            lblTeamName.AutoSize = true;
+            lblTeamName.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            lblTeamName.Location = new Point(199, 234);
+            lblTeamName.Margin = new Padding(10, 0, 10, 0);
+            lblTeamName.Name = "lblTeamName";
+            lblTeamName.Size = new Size(139, 48);
+            lblTeamName.TabIndex = 1;
+            lblTeamName.Text = "Name :";
             // 
             // txtTeamName
             // 
-            txtTeamName.Location = new Point(684, 202);
+            txtTeamName.Location = new Point(619, 222);
+            txtTeamName.Margin = new Padding(10, 11, 10, 11);
             txtTeamName.Name = "txtTeamName";
-            txtTeamName.Size = new Size(360, 55);
-            txtTeamName.TabIndex = 49;
+            txtTeamName.Size = new Size(657, 55);
+            txtTeamName.TabIndex = 2;
             // 
-            // Title
+            // lblProject
             // 
-            Title.AutoSize = true;
-            Title.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
-            Title.Location = new Point(247, 209);
-            Title.Name = "Title";
-            Title.Size = new Size(225, 48);
-            Title.TabIndex = 48;
-            Title.Text = "New Name :";
+            lblProject.AutoSize = true;
+            lblProject.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            lblProject.Location = new Point(199, 344);
+            lblProject.Margin = new Padding(10, 0, 10, 0);
+            lblProject.Name = "lblProject";
+            lblProject.Size = new Size(348, 48);
+            lblProject.TabIndex = 3;
+            lblProject.Text = "Project Associated :";
+            // 
+            // cmbProject
+            // 
+            cmbProject.DropDownStyle = ComboBoxStyle.DropDownList;
+            cmbProject.FormattingEnabled = true;
+            cmbProject.Location = new Point(619, 333);
+            cmbProject.Margin = new Padding(10, 11, 10, 11);
+            cmbProject.Name = "cmbProject";
+            cmbProject.Size = new Size(657, 56);
+            cmbProject.TabIndex = 4;
+            // 
+            // lblLeader
+            // 
+            lblLeader.AutoSize = true;
+            lblLeader.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            lblLeader.Location = new Point(199, 455);
+            lblLeader.Margin = new Padding(10, 0, 10, 0);
+            lblLeader.Name = "lblLeader";
+            lblLeader.Size = new Size(250, 48);
+            lblLeader.TabIndex = 5;
+            lblLeader.Text = "Team Leader :";
+            // 
+            // cmbLeader
+            // 
+            cmbLeader.DropDownStyle = ComboBoxStyle.DropDownList;
+            cmbLeader.FormattingEnabled = true;
+            cmbLeader.Location = new Point(619, 444);
+            cmbLeader.Margin = new Padding(10, 11, 10, 11);
+            cmbLeader.Name = "cmbLeader";
+            cmbLeader.Size = new Size(657, 56);
+            cmbLeader.TabIndex = 6;
+            // 
+            // lblMembers
+            // 
+            lblMembers.AutoSize = true;
+            lblMembers.Font = new Font("Segoe UI", 9F, FontStyle.Bold);
+            lblMembers.Location = new Point(199, 566);
+            lblMembers.Margin = new Padding(10, 0, 10, 0);
+            lblMembers.Name = "lblMembers";
+            lblMembers.Size = new Size(295, 48);
+            lblMembers.TabIndex = 7;
+            lblMembers.Text = "Team members :";
+            // 
+            // clbMembers
+            // 
+            clbMembers.FormattingEnabled = true;
+            clbMembers.Location = new Point(619, 566);
+            clbMembers.Margin = new Padding(10, 11, 10, 11);
+            clbMembers.Name = "clbMembers";
+            clbMembers.Size = new Size(657, 490);
+            clbMembers.TabIndex = 8;
             // 
             // label1
             // 
             label1.AutoSize = true;
             label1.Font = new Font("Segoe UI", 13F, FontStyle.Bold | FontStyle.Underline);
-            label1.Location = new Point(68, 24);
+            label1.Location = new Point(53, 41);
             label1.Name = "label1";
             label1.Size = new Size(492, 70);
-            label1.TabIndex = 47;
+            label1.TabIndex = 32;
             label1.Text = "Modify Team Info :";
             // 
-            // buttonAnnuler
+            // btnCancel
             // 
-            buttonAnnuler.BackColor = Color.Red;
-            buttonAnnuler.FlatStyle = FlatStyle.Flat;
-            buttonAnnuler.Location = new Point(446, 864);
-            buttonAnnuler.Name = "buttonAnnuler";
-            buttonAnnuler.Size = new Size(265, 113);
-            buttonAnnuler.TabIndex = 77;
-            buttonAnnuler.Text = "Annuler";
-            buttonAnnuler.UseVisualStyleBackColor = false;
+            btnCancel.BackColor = Color.Red;
+            btnCancel.FlatStyle = FlatStyle.Flat;
+            btnCancel.Location = new Point(659, 1138);
+            btnCancel.Margin = new Padding(10, 11, 10, 11);
+            btnCancel.Name = "btnCancel";
+            btnCancel.Size = new Size(267, 111);
+            btnCancel.TabIndex = 49;
+            btnCancel.Text = "Cancel";
+            btnCancel.UseVisualStyleBackColor = false;
             // 
-            // buttonCreateTask
+            // buttonSave
             // 
-            buttonCreateTask.BackColor = Color.LimeGreen;
-            buttonCreateTask.FlatStyle = FlatStyle.Flat;
-            buttonCreateTask.Location = new Point(859, 864);
-            buttonCreateTask.Name = "buttonCreateTask";
-            buttonCreateTask.Size = new Size(422, 113);
-            buttonCreateTask.TabIndex = 76;
-            buttonCreateTask.Text = "Update";
-            buttonCreateTask.UseVisualStyleBackColor = false;
+            buttonSave.BackColor = Color.LimeGreen;
+            buttonSave.FlatStyle = FlatStyle.Flat;
+            buttonSave.Location = new Point(1018, 1137);
+            buttonSave.Name = "buttonSave";
+            buttonSave.Size = new Size(265, 113);
+            buttonSave.TabIndex = 48;
+            buttonSave.Text = "Update ";
+            buttonSave.UseVisualStyleBackColor = false;
+            buttonSave.Click += buttonSave_Click;
             // 
             // FormEditTeam
             // 
             AutoScaleDimensions = new SizeF(20F, 48F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.ButtonHighlight;
-            ClientSize = new Size(1432, 1108);
-            Controls.Add(buttonAnnuler);
-            Controls.Add(buttonCreateTask);
-            Controls.Add(checkedListBoxMembers);
-            Controls.Add(comboBoxProject);
-            Controls.Add(comboBoxLeader);
-            Controls.Add(label3);
-            Controls.Add(label7);
-            Controls.Add(label2);
-            Controls.Add(txtTeamName);
-            Controls.Add(Title);
+            ClientSize = new Size(1667, 1292);
+            Controls.Add(btnCancel);
+            Controls.Add(buttonSave);
             Controls.Add(label1);
+            Controls.Add(clbMembers);
+            Controls.Add(lblMembers);
+            Controls.Add(cmbLeader);
+            Controls.Add(lblLeader);
+            Controls.Add(cmbProject);
+            Controls.Add(lblProject);
+            Controls.Add(txtTeamName);
+            Controls.Add(lblTeamName);
             FormBorderStyle = FormBorderStyle.None;
+            Margin = new Padding(10, 11, 10, 11);
+            MaximizeBox = false;
+            MinimizeBox = false;
             Name = "FormEditTeam";
-            Text = "FormEditTeam";
+            StartPosition = FormStartPosition.CenterParent;
+            Text = "Modifier l'équipe";
+            Load += FormEditTeam_Load;
             ResumeLayout(false);
             PerformLayout();
         }
 
         #endregion
-
-        private CheckedListBox checkedListBoxMembers;
-        private ComboBox comboBoxProject;
-        private ComboBox comboBoxLeader;
-        private Label label3;
-        private Label label7;
-        private Label label2;
-        private TextBox txtTeamName;
-        private Label Title;
+        private System.Windows.Forms.Label lblTeamName;
+        private System.Windows.Forms.TextBox txtTeamName;
+        private System.Windows.Forms.Label lblProject;
+        private System.Windows.Forms.ComboBox cmbProject;
+        private System.Windows.Forms.Label lblLeader;
+        private System.Windows.Forms.ComboBox cmbLeader;
+        private System.Windows.Forms.Label lblMembers;
+        private System.Windows.Forms.CheckedListBox clbMembers;
         private Label label1;
-        private Button buttonAnnuler;
-        private Button buttonCreateTask;
+        private Button btnCancel;
+        private Button buttonSave;
     }
 }
+       

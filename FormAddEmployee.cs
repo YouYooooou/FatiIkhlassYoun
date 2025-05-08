@@ -96,6 +96,11 @@ namespace FatiIkhlassYoun
         {
             // Facultatif : tu peux mettre du code ici si besoin
         }
+
+        private void btnCancel_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
     }
 }
 

@@ -44,7 +44,7 @@
             cmbStatus = new ComboBox();
             dtpStartDate = new DateTimePicker();
             dtpDueDate = new DateTimePicker();
-            buttonCreateTask = new Button();
+            buttonUpdateTask = new Button();
             txtTitle = new TextBox();
             txtDescription = new TextBox();
             Statuslabel = new Label();
@@ -82,6 +82,7 @@
             buttonAnnuler.TabIndex = 75;
             buttonAnnuler.Text = "Annuler";
             buttonAnnuler.UseVisualStyleBackColor = false;
+            buttonAnnuler.Click += buttonAnnuler_Click;
             // 
             // clbAssignedUsers
             // 
@@ -90,6 +91,7 @@
             clbAssignedUsers.Name = "clbAssignedUsers";
             clbAssignedUsers.Size = new Size(534, 166);
             clbAssignedUsers.TabIndex = 74;
+            clbAssignedUsers.SelectedIndexChanged += clbAssignedUsers_SelectedIndexChanged;
             // 
             // Membreasignedlabel
             // 
@@ -196,16 +198,17 @@
             dtpDueDate.Size = new Size(528, 55);
             dtpDueDate.TabIndex = 62;
             // 
-            // buttonCreateTask
+            // buttonUpdateTask
             // 
-            buttonCreateTask.BackColor = Color.LimeGreen;
-            buttonCreateTask.FlatStyle = FlatStyle.Flat;
-            buttonCreateTask.Location = new Point(1402, 1519);
-            buttonCreateTask.Name = "buttonCreateTask";
-            buttonCreateTask.Size = new Size(422, 113);
-            buttonCreateTask.TabIndex = 61;
-            buttonCreateTask.Text = "Update";
-            buttonCreateTask.UseVisualStyleBackColor = false;
+            buttonUpdateTask.BackColor = Color.LimeGreen;
+            buttonUpdateTask.FlatStyle = FlatStyle.Flat;
+            buttonUpdateTask.Location = new Point(1402, 1519);
+            buttonUpdateTask.Name = "buttonUpdateTask";
+            buttonUpdateTask.Size = new Size(422, 113);
+            buttonUpdateTask.TabIndex = 61;
+            buttonUpdateTask.Text = "Update";
+            buttonUpdateTask.UseVisualStyleBackColor = false;
+            buttonUpdateTask.Click += buttonUpdateTask_Click;
             // 
             // txtTitle
             // 
@@ -284,7 +287,7 @@
             Controls.Add(cmbStatus);
             Controls.Add(dtpStartDate);
             Controls.Add(dtpDueDate);
-            Controls.Add(buttonCreateTask);
+            Controls.Add(buttonUpdateTask);
             Controls.Add(txtTitle);
             Controls.Add(txtDescription);
             Controls.Add(Statuslabel);
@@ -318,7 +321,7 @@
         private ComboBox cmbStatus;
         private DateTimePicker dtpStartDate;
         private DateTimePicker dtpDueDate;
-        private Button buttonCreateTask;
+        private Button buttonUpdateTask;
         private TextBox txtTitle;
         private TextBox txtDescription;
         private Label Statuslabel;

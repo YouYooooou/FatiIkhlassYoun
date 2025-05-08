@@ -41,6 +41,7 @@ namespace FatiIkhlassYoun
             txtPhone = new TextBox();
             cmbRole = new ComboBox();
             buttonSave = new Button();
+            btnCancel = new Button();
             SuspendLayout();
             // 
             // label1
@@ -114,6 +115,7 @@ namespace FatiIkhlassYoun
             // 
             txtPassword.Location = new Point(791, 387);
             txtPassword.Name = "txtPassword";
+            txtPassword.PasswordChar = '*';
             txtPassword.Size = new Size(465, 55);
             txtPassword.TabIndex = 7;
             // 
@@ -140,14 +142,12 @@ namespace FatiIkhlassYoun
             cmbRole.Size = new Size(465, 56);
             cmbRole.TabIndex = 10;
             cmbRole.SelectedIndexChanged += cmbRole_SelectedIndexChanged;
-            this.Load += new System.EventHandler(this.FormAddEmployee_Load);
-
             // 
             // buttonSave
             // 
             buttonSave.BackColor = Color.LimeGreen;
             buttonSave.FlatStyle = FlatStyle.Flat;
-            buttonSave.Location = new Point(1702, 956);
+            buttonSave.Location = new Point(1118, 985);
             buttonSave.Name = "buttonSave";
             buttonSave.Size = new Size(265, 113);
             buttonSave.TabIndex = 11;
@@ -155,12 +155,26 @@ namespace FatiIkhlassYoun
             buttonSave.UseVisualStyleBackColor = false;
             buttonSave.Click += buttonSave_Click;
             // 
+            // btnCancel
+            // 
+            btnCancel.BackColor = Color.Red;
+            btnCancel.FlatStyle = FlatStyle.Flat;
+            btnCancel.Location = new Point(692, 985);
+            btnCancel.Margin = new Padding(10, 11, 10, 11);
+            btnCancel.Name = "btnCancel";
+            btnCancel.Size = new Size(267, 111);
+            btnCancel.TabIndex = 19;
+            btnCancel.Text = "Cancel";
+            btnCancel.UseVisualStyleBackColor = false;
+            btnCancel.Click += btnCancel_Click;
+            // 
             // FormAddEmployee
             // 
             AutoScaleDimensions = new SizeF(20F, 48F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.ButtonHighlight;
-            ClientSize = new Size(2145, 1175);
+            ClientSize = new Size(1515, 1175);
+            Controls.Add(btnCancel);
             Controls.Add(buttonSave);
             Controls.Add(cmbRole);
             Controls.Add(txtPhone);
@@ -203,5 +217,6 @@ namespace FatiIkhlassYoun
         private TextBox txtPhone;
         private ComboBox cmbRole;
         private Button buttonSave;
+        private Button btnCancel;
     }
 }

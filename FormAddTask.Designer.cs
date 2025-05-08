@@ -237,6 +237,7 @@ namespace FatiIkhlassYoun
             clbAssignedUsers.Name = "clbAssignedUsers";
             clbAssignedUsers.Size = new Size(534, 166);
             clbAssignedUsers.TabIndex = 51;
+            clbAssignedUsers.SelectedIndexChanged += clbAssignedUsers_SelectedIndexChanged_1;
             // 
             // buttonAnnuler
             // 

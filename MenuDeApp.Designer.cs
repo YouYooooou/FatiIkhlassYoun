@@ -72,6 +72,13 @@ namespace FatiIkhlassYoun
             contextMenuEdit = new ContextMenuStrip(components);
             editTaskInfoToolStripMenuItem = new ToolStripMenuItem();
             editTeamInfoToolStripMenuItem = new ToolStripMenuItem();
+            editUserInfoToolStripMenuItem = new ToolStripMenuItem();
+            editProjectInfoToolStripMenuItem = new ToolStripMenuItem();
+            contextMenuDelete = new ContextMenuStrip(components);
+            deleteEmployeeToolStripMenuItem = new ToolStripMenuItem();
+            deleteTeamToolStripMenuItem = new ToolStripMenuItem();
+            deleteTaskToolStripMenuItem = new ToolStripMenuItem();
+            deleteProjectToolStripMenuItem = new ToolStripMenuItem();
             panelSup.SuspendLayout();
             panelsup2.SuspendLayout();
             panelwelcome.SuspendLayout();
@@ -82,6 +89,7 @@ namespace FatiIkhlassYoun
             contextMenuAdd.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridView).BeginInit();
             contextMenuEdit.SuspendLayout();
+            contextMenuDelete.SuspendLayout();
             SuspendLayout();
             // 
             // panelSup
@@ -172,6 +180,7 @@ namespace FatiIkhlassYoun
             cuiButtonProgress.Size = new Size(342, 277);
             cuiButtonProgress.TabIndex = 17;
             cuiButtonProgress.TextOffset = new Point(-25, 60);
+            cuiButtonProgress.Click += cuiButtonProgress_Click;
             // 
             // cuiButtonDelete
             // 
@@ -181,7 +190,7 @@ namespace FatiIkhlassYoun
             cuiButtonDelete.CheckedForeColor = Color.White;
             cuiButtonDelete.CheckedImageTint = Color.White;
             cuiButtonDelete.CheckedOutline = Color.CornflowerBlue;
-            cuiButtonDelete.Content = "Add ";
+            cuiButtonDelete.Content = "Delete";
             cuiButtonDelete.DialogResult = DialogResult.None;
             cuiButtonDelete.Font = new Font("Microsoft Sans Serif", 9.75F);
             cuiButtonDelete.ForeColor = Color.Black;
@@ -192,7 +201,7 @@ namespace FatiIkhlassYoun
             cuiButtonDelete.Image = (Image)resources.GetObject("cuiButtonDelete.Image");
             cuiButtonDelete.ImageAutoCenter = true;
             cuiButtonDelete.ImageExpand = new Point(10, 10);
-            cuiButtonDelete.ImageOffset = new Point(50, 0);
+            cuiButtonDelete.ImageOffset = new Point(70, 0);
             cuiButtonDelete.ImageTint = Color.WhiteSmoke;
             cuiButtonDelete.Location = new Point(681, 0);
             cuiButtonDelete.Name = "cuiButtonDelete";
@@ -207,6 +216,7 @@ namespace FatiIkhlassYoun
             cuiButtonDelete.Size = new Size(342, 277);
             cuiButtonDelete.TabIndex = 15;
             cuiButtonDelete.TextOffset = new Point(-25, 60);
+            cuiButtonDelete.Click += cuiButtonDelete_Click_1;
             // 
             // cuiButtonEdit
             // 
@@ -242,7 +252,7 @@ namespace FatiIkhlassYoun
             cuiButtonEdit.Size = new Size(342, 277);
             cuiButtonEdit.TabIndex = 16;
             cuiButtonEdit.TextOffset = new Point(-25, 60);
-            cuiButtonEdit.Click += cuiButtonEdit_Click_1;
+            cuiButtonEdit.Click += cuiButtonEdit_Click;
             // 
             // panelwelcome
             // 
@@ -313,6 +323,7 @@ namespace FatiIkhlassYoun
             cuiButton1.Size = new Size(233, 277);
             cuiButton1.TabIndex = 14;
             cuiButton1.TextOffset = new Point(-30, 60);
+            cuiButton1.Click += cuiButton1_Click;
             // 
             // cuiButtonWtsp
             // 
@@ -348,7 +359,7 @@ namespace FatiIkhlassYoun
             cuiButtonWtsp.Size = new Size(286, 277);
             cuiButtonWtsp.TabIndex = 12;
             cuiButtonWtsp.TextOffset = new Point(-30, 60);
-            cuiButtonWtsp.Click += cuiButton6_Click;
+            cuiButtonWtsp.Click += cuiButtonWtsp_Click;
             // 
             // cuiButtonGenerateReport
             // 
@@ -420,7 +431,7 @@ namespace FatiIkhlassYoun
             cuiButtonADD.Size = new Size(342, 277);
             cuiButtonADD.TabIndex = 6;
             cuiButtonADD.TextOffset = new Point(-25, 60);
-            cuiButtonADD.Click += cuiButton1_Click;
+            cuiButtonADD.Click += cuiButtonADD_Click;
             // 
             // panelleft
             // 
@@ -468,9 +479,9 @@ namespace FatiIkhlassYoun
             // 
             panelRight.BackColor = Color.WhiteSmoke;
             panelRight.Controls.Add(dataGridView1);
-            panelRight.Location = new Point(2481, 363);
+            panelRight.Location = new Point(2654, 363);
             panelRight.Name = "panelRight";
-            panelRight.Size = new Size(565, 1634);
+            panelRight.Size = new Size(392, 1634);
             panelRight.TabIndex = 0;
             panelRight.Paint += panel1_Paint;
             // 
@@ -507,7 +518,7 @@ namespace FatiIkhlassYoun
             addTeamToolStripMenuItem.Name = "addTeamToolStripMenuItem";
             addTeamToolStripMenuItem.Size = new Size(352, 56);
             addTeamToolStripMenuItem.Text = "Add Team";
-            addTeamToolStripMenuItem.Click += addGroupToolStripMenuItem_Click;
+            addTeamToolStripMenuItem.Click += addTeamToolStripMenuItem_Click;
             // 
             // AddTasktoolStripMenuItem
             // 
@@ -525,12 +536,14 @@ namespace FatiIkhlassYoun
             // 
             // dataGridView
             // 
+            dataGridView.BackgroundColor = SystemColors.Control;
             dataGridView.ColumnHeadersHeight = 69;
-            dataGridView.Location = new Point(513, 366);
+            dataGridView.Location = new Point(513, 363);
             dataGridView.Name = "dataGridView";
             dataGridView.RowHeadersWidth = 123;
-            dataGridView.Size = new Size(1962, 1150);
+            dataGridView.Size = new Size(2147, 844);
             dataGridView.TabIndex = 1;
+            dataGridView.CellContentClick += dataGridView_CellContentClick;
             // 
             // textDataGridViewTextBoxColumn
             // 
@@ -543,23 +556,74 @@ namespace FatiIkhlassYoun
             // contextMenuEdit
             // 
             contextMenuEdit.ImageScalingSize = new Size(48, 48);
-            contextMenuEdit.Items.AddRange(new ToolStripItem[] { editTaskInfoToolStripMenuItem, editTeamInfoToolStripMenuItem });
+            contextMenuEdit.Items.AddRange(new ToolStripItem[] { editTaskInfoToolStripMenuItem, editTeamInfoToolStripMenuItem, editUserInfoToolStripMenuItem, editProjectInfoToolStripMenuItem });
             contextMenuEdit.Name = "contextMenuEdit";
-            contextMenuEdit.Size = new Size(421, 182);
+            contextMenuEdit.Size = new Size(354, 228);
             contextMenuEdit.Opening += contextMenuEdit_Opening;
             // 
             // editTaskInfoToolStripMenuItem
             // 
             editTaskInfoToolStripMenuItem.Name = "editTaskInfoToolStripMenuItem";
-            editTaskInfoToolStripMenuItem.Size = new Size(420, 56);
+            editTaskInfoToolStripMenuItem.Size = new Size(353, 56);
             editTaskInfoToolStripMenuItem.Text = "Edit Task Info";
             editTaskInfoToolStripMenuItem.Click += editTaskInfoToolStripMenuItem_Click;
             // 
             // editTeamInfoToolStripMenuItem
             // 
             editTeamInfoToolStripMenuItem.Name = "editTeamInfoToolStripMenuItem";
-            editTeamInfoToolStripMenuItem.Size = new Size(420, 56);
+            editTeamInfoToolStripMenuItem.Size = new Size(353, 56);
             editTeamInfoToolStripMenuItem.Text = "Edit Team Info";
+            editTeamInfoToolStripMenuItem.Click += editTeamInfoToolStripMenuItem_Click_1;
+            // 
+            // editUserInfoToolStripMenuItem
+            // 
+            editUserInfoToolStripMenuItem.Name = "editUserInfoToolStripMenuItem";
+            editUserInfoToolStripMenuItem.Size = new Size(353, 56);
+            editUserInfoToolStripMenuItem.Text = "Edit User Info";
+            editUserInfoToolStripMenuItem.Click += editUserInfoToolStripMenuItem_Click;
+            // 
+            // editProjectInfoToolStripMenuItem
+            // 
+            editProjectInfoToolStripMenuItem.Name = "editProjectInfoToolStripMenuItem";
+            editProjectInfoToolStripMenuItem.Size = new Size(353, 56);
+            editProjectInfoToolStripMenuItem.Text = "Edit Project Info";
+            editProjectInfoToolStripMenuItem.Click += editProjectInfoToolStripMenuItem_Click;
+            // 
+            // contextMenuDelete
+            // 
+            contextMenuDelete.ImageScalingSize = new Size(48, 48);
+            contextMenuDelete.Items.AddRange(new ToolStripItem[] { deleteEmployeeToolStripMenuItem, deleteTeamToolStripMenuItem, deleteTaskToolStripMenuItem, deleteProjectToolStripMenuItem });
+            contextMenuDelete.Name = "contextMenuStrip1";
+            contextMenuDelete.Size = new Size(369, 228);
+            contextMenuDelete.Opening += contextMenuDelete_Opening;
+            // 
+            // deleteEmployeeToolStripMenuItem
+            // 
+            deleteEmployeeToolStripMenuItem.Name = "deleteEmployeeToolStripMenuItem";
+            deleteEmployeeToolStripMenuItem.Size = new Size(368, 56);
+            deleteEmployeeToolStripMenuItem.Text = "Delete Employee";
+            deleteEmployeeToolStripMenuItem.Click += deleteEmployeeToolStripMenuItem_Click;
+            // 
+            // deleteTeamToolStripMenuItem
+            // 
+            deleteTeamToolStripMenuItem.Name = "deleteTeamToolStripMenuItem";
+            deleteTeamToolStripMenuItem.Size = new Size(368, 56);
+            deleteTeamToolStripMenuItem.Text = "Delete Team";
+            deleteTeamToolStripMenuItem.Click += deleteTeamToolStripMenuItem_Click;
+            // 
+            // deleteTaskToolStripMenuItem
+            // 
+            deleteTaskToolStripMenuItem.Name = "deleteTaskToolStripMenuItem";
+            deleteTaskToolStripMenuItem.Size = new Size(368, 56);
+            deleteTaskToolStripMenuItem.Text = "Delete Task";
+            deleteTaskToolStripMenuItem.Click += deleteTaskToolStripMenuItem_Click;
+            // 
+            // deleteProjectToolStripMenuItem
+            // 
+            deleteProjectToolStripMenuItem.Name = "deleteProjectToolStripMenuItem";
+            deleteProjectToolStripMenuItem.Size = new Size(368, 56);
+            deleteProjectToolStripMenuItem.Text = "Delete Project";
+            deleteProjectToolStripMenuItem.Click += deleteProjectToolStripMenuItem_Click;
             // 
             // MenuDeApp
             // 
@@ -588,6 +652,7 @@ namespace FatiIkhlassYoun
             contextMenuAdd.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)dataGridView).EndInit();
             contextMenuEdit.ResumeLayout(false);
+            contextMenuDelete.ResumeLayout(false);
             ResumeLayout(false);
         }
 
@@ -628,5 +693,12 @@ namespace FatiIkhlassYoun
         private ContextMenuStrip contextMenuEdit;
         private ToolStripMenuItem editTaskInfoToolStripMenuItem;
         private ToolStripMenuItem editTeamInfoToolStripMenuItem;
+        private ToolStripMenuItem editUserInfoToolStripMenuItem;
+        private ToolStripMenuItem editProjectInfoToolStripMenuItem;
+        private ContextMenuStrip contextMenuDelete;
+        private ToolStripMenuItem deleteEmployeeToolStripMenuItem;
+        private ToolStripMenuItem deleteTeamToolStripMenuItem;
+        private ToolStripMenuItem deleteTaskToolStripMenuItem;
+        private ToolStripMenuItem deleteProjectToolStripMenuItem;
     }
 }

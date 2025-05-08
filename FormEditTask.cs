@@ -1,121 +1,156 @@
 ﻿using System.Configuration;
 using System.Data.SqlClient;
+using System.Data;
+using System.Linq;
 
 namespace FatiIkhlassYoun
 {
     public partial class FormEditTask : Form
     {
-        private string connectionString = ConfigurationManager.ConnectionStrings["cnx"].ConnectionString;
+        private string connectionString = "Server=DESKTOP-78OLGDN;Database=ProjectManagementSystem;Integrated Security=True;";
         public int TaskId { get; set; }
-      
 
-        public FormEditTask(int selectedId)
+        public FormEditTask(int taskId)
         {
             InitializeComponent();
-            this.TaskId = selectedId;
+            this.TaskId = taskId;
+            LoadTaskData();
         }
 
-        public FormEditTask()
-        {
-        }
-
-        private void FormEditTask_Load(object sender, EventArgs e)
+        private void LoadTaskData()
         {
             try
             {
-                cmbStatus.Items.AddRange(new string[] { "En attente", "En cours", "Terminée" });
+                // Initialiser les ComboBox
+                cmbStatus.Items.AddRange(new string[] { "Terminée", "En cours", "En attente" });
                 cmbPriority.Items.AddRange(new string[] { "Basse", "Moyenne", "Haute" });
 
                 using (SqlConnection conn = new SqlConnection(connectionString))
                 {
                     conn.Open();
 
-                    // Chargement des projets
-                    SqlCommand cmdProjects = new SqlCommand("SELECT ProjectID, Title FROM Projects", conn);
-                    using (SqlDataReader reader = cmdProjects.ExecuteReader())
-                    {
-                        while (reader.Read())
-                        {
-                            cmbProject.Items.Add(new ComboboxItem(reader["Title"].ToString(), reader["ProjectID"]));
-                        }
-                    }
+                    // Charger la liste des projets
+                    string projectsQuery = "SELECT ProjectID, Title FROM Projects";
+                    SqlDataAdapter projectsAdapter = new SqlDataAdapter(projectsQuery, conn);
+                    DataTable projectsTable = new DataTable();
+                    projectsAdapter.Fill(projectsTable);
 
-                    // Chargement des chefs d’équipe
-                    SqlCommand cmdLeads = new SqlCommand("SELECT UserID, Username FROM Users WHERE Role = 'chef_equipe'", conn);
-                    using (SqlDataReader reader = cmdLeads.ExecuteReader())
-                    {
-                        while (reader.Read())
-                        {
-                            cmbTeamLead.Items.Add(new ComboboxItem(reader["Username"].ToString(), reader["UserID"]));
-                        }
-                    }
+                    cmbProject.DisplayMember = "Title";
+                    cmbProject.ValueMember = "ProjectID";
+                    cmbProject.DataSource = projectsTable;
 
-                    // Chargement des utilisateurs
-                    SqlCommand cmdUsers = new SqlCommand("SELECT UserID, Username FROM Users", conn);
-                    using (SqlDataReader reader = cmdUsers.ExecuteReader())
-                    {
-                        while (reader.Read())
-                        {
-                            clbAssignedUsers.Items.Add(new ComboboxItem(reader["Username"].ToString(), reader["UserID"]));
-                        }
-                    }
+                    // Charger la liste des chefs d'équipe
+                    string leadsQuery = "SELECT UserID, Username FROM Users WHERE Role = 'chef_equipe' ";
+                    SqlDataAdapter leadsAdapter = new SqlDataAdapter(leadsQuery, conn);
+                    DataTable leadsTable = new DataTable();
+                    leadsAdapter.Fill(leadsTable);
 
-                    // Charger les détails de la tâche
-                    SqlCommand cmdTask = new SqlCommand("SELECT * FROM Tasks WHERE TaskID = @TaskID", conn);
-                    cmdTask.Parameters.AddWithValue("@TaskID", TaskId);
-                    using (SqlDataReader reader = cmdTask.ExecuteReader())
+                    cmbTeamLead.DisplayMember = "Username";
+                    cmbTeamLead.ValueMember = "UserID";
+                    cmbTeamLead.DataSource = leadsTable;
+
+                    // Charger la liste des utilisateurs
+                    string usersQuery = "SELECT UserID, Username FROM Users";
+                    SqlDataAdapter usersAdapter = new SqlDataAdapter(usersQuery, conn);
+                    DataTable usersTable = new DataTable();
+                    usersAdapter.Fill(usersTable);
+
+                    clbAssignedUsers.Items.Clear();
+                    foreach (DataRow row in usersTable.Rows)
+                    {
+                        clbAssignedUsers.Items.Add(
+                            new ComboboxItem(
+                                row["Username"].ToString(),
+                                Convert.ToInt32(row["UserID"])
+                            ),
+                            false // Non coché par défaut
+                        );
+                    }
+                    // Charger les données de la tâche
+                    string taskQuery = "SELECT * FROM Tasks WHERE TaskID = @TaskID";
+                    SqlCommand taskCmd = new SqlCommand(taskQuery, conn);
+                    taskCmd.Parameters.AddWithValue("@TaskID", TaskId);
+
+                    using (SqlDataReader reader = taskCmd.ExecuteReader())
                     {
                         if (reader.Read())
                         {
                             txtTitle.Text = reader["Title"].ToString();
                             txtDescription.Text = reader["Description"].ToString();
-                            dtpDueDate.Value = Convert.ToDateTime(reader["StartDate"]);
+                            dtpStartDate.Value = Convert.ToDateTime(reader["StartDate"]);
                             dtpDueDate.Value = Convert.ToDateTime(reader["DueDate"]);
                             cmbStatus.SelectedItem = reader["Status"].ToString();
                             cmbPriority.SelectedItem = reader["Priority"].ToString();
                             numEstimatedTime.Value = Convert.ToDecimal(reader["EstimatedTime"]);
+                            if (reader["TeamLeadID"] != DBNull.Value)
+                            {
+                                int teamLeadId = Convert.ToInt32(reader["TeamLeadID"]);
 
-                            int projectId = Convert.ToInt32(reader["ProjectID"]);
-                            int teamLeadId = Convert.ToInt32(reader["TeamLeadID"]);
+                                // Vérifie si la valeur existe dans la liste
+                                if (cmbTeamLead.Items.Cast<DataRowView>().Any(item => (int)item["UserID"] == teamLeadId))
+                                {
+                                    cmbTeamLead.SelectedValue = teamLeadId;
+                                }
+                            }
 
-                            // Sélection projet et chef d'équipe
-                            foreach (ComboboxItem item in cmbProject.Items)
-                                if ((int)item.Value == projectId) cmbProject.SelectedItem = item;
-
-                            foreach (ComboboxItem item in cmbTeamLead.Items)
-                                if ((int)item.Value == teamLeadId) cmbTeamLead.SelectedItem = item;
+                            // Sélectionner le projet et le chef d'équipe
+                            cmbProject.SelectedValue = reader["ProjectID"];
+                            cmbTeamLead.SelectedValue = reader["TeamLeadID"];
                         }
                     }
 
-                    // Cocher les utilisateurs déjà assignés
-                    SqlCommand cmdAssigned = new SqlCommand("SELECT UserID FROM Task_Assignments WHERE TaskID = @TaskID", conn);
-                    cmdAssigned.Parameters.AddWithValue("@TaskID", TaskId);
-                    List<int> assignedUsers = new List<int>();
-                    using (SqlDataReader reader = cmdAssigned.ExecuteReader())
-                    {
-                        while (reader.Read())
-                            assignedUsers.Add((int)reader["UserID"]);
-                    }
+                    // Charger les utilisateurs assignés
+                    string assignedQuery = "SELECT UserID FROM Task_Assignments WHERE TaskID = @TaskID";
+                    SqlCommand assignedCmd = new SqlCommand(assignedQuery, conn);
+                    assignedCmd.Parameters.AddWithValue("@TaskID", TaskId);
 
-                    for (int i = 0; i < clbAssignedUsers.Items.Count; i++)
+                    DataTable assignedTable = new DataTable();
+                    SqlDataAdapter assignedAdapter = new SqlDataAdapter(assignedCmd);
+                    assignedAdapter.Fill(assignedTable);
+
+                    // Cocher les utilisateurs assignés
+                    foreach (DataRow row in assignedTable.Rows)
                     {
-                        var item = clbAssignedUsers.Items[i] as ComboboxItem;
-                        if (assignedUsers.Contains((int)item.Value))
-                            clbAssignedUsers.SetItemChecked(i, true);
+                        int userId = Convert.ToInt32(row["UserID"]);
+                        for (int i = 0; i < clbAssignedUsers.Items.Count; i++)
+                        {
+                            var item = (ComboboxItem)clbAssignedUsers.Items[i];
+                            if ((int)item.Value == userId)
+                            {
+                                clbAssignedUsers.SetItemChecked(i, true);
+                                break;
+                            }
+                        }
                     }
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Erreur de chargement : " + ex.Message);
+                MessageBox.Show("Erreur lors du chargement des données : " + ex.Message,
+                              "Erreur",
+                              MessageBoxButtons.OK,
+                              MessageBoxIcon.Error);
             }
         }
 
         private void btnSave_Click(object sender, EventArgs e)
         {
-            if (cmbProject.SelectedItem == null || cmbTeamLead.SelectedItem == null || string.IsNullOrWhiteSpace(txtTitle.Text))
+            // Validation des champs
+            if (string.IsNullOrWhiteSpace(txtTitle.Text))
             {
-                MessageBox.Show("Champs obligatoires manquants.");
+                MessageBox.Show("Veuillez saisir un titre pour la tâche",
+                              "Champ requis",
+                              MessageBoxButtons.OK,
+                              MessageBoxIcon.Warning);
+                return;
+            }
+
+            if (cmbProject.SelectedItem == null)
+            {
+                MessageBox.Show("Veuillez sélectionner un projet",
+                              "Champ requis",
+                              MessageBoxButtons.OK,
+                              MessageBoxIcon.Warning);
                 return;
             }
 
@@ -126,61 +161,115 @@ namespace FatiIkhlassYoun
                     conn.Open();
 
                     // Mise à jour de la tâche
-                    SqlCommand cmd = new SqlCommand(@"
+                    string updateQuery = @"
                         UPDATE Tasks SET 
-                            ProjectID = @ProjectID,
                             Title = @Title,
                             Description = @Description,
                             StartDate = @StartDate,
                             DueDate = @DueDate,
                             Status = @Status,
+                            Priority = @Priority,
                             EstimatedTime = @EstimatedTime,
-                            TeamLeadID = @TeamLeadID,
-                            Priority = @Priority
-                        WHERE TaskID = @TaskID", conn);
+                            ProjectID = @ProjectID,
+                            TeamLeadID = @TeamLeadID
+                        WHERE TaskID = @TaskID";
 
-                    cmd.Parameters.AddWithValue("@ProjectID", ((ComboboxItem)cmbProject.SelectedItem).Value);
+                    SqlCommand cmd = new SqlCommand(updateQuery, conn);
                     cmd.Parameters.AddWithValue("@Title", txtTitle.Text.Trim());
                     cmd.Parameters.AddWithValue("@Description", txtDescription.Text.Trim());
-                    cmd.Parameters.AddWithValue("@StartDate", dtpDueDate.Value);
+                    cmd.Parameters.AddWithValue("@StartDate", dtpStartDate.Value);
                     cmd.Parameters.AddWithValue("@DueDate", dtpDueDate.Value);
                     cmd.Parameters.AddWithValue("@Status", cmbStatus.SelectedItem.ToString());
-                    cmd.Parameters.AddWithValue("@EstimatedTime", (int)numEstimatedTime.Value);
-                    cmd.Parameters.AddWithValue("@TeamLeadID", ((ComboboxItem)cmbTeamLead.SelectedItem).Value);
                     cmd.Parameters.AddWithValue("@Priority", cmbPriority.SelectedItem.ToString());
+                    cmd.Parameters.AddWithValue("@EstimatedTime", numEstimatedTime.Value);
+                    cmd.Parameters.AddWithValue("@ProjectID", ((DataRowView)cmbProject.SelectedItem)["ProjectID"]);
+                    cmd.Parameters.AddWithValue("@TeamLeadID", ((DataRowView)cmbTeamLead.SelectedItem)["UserID"]);
                     cmd.Parameters.AddWithValue("@TaskID", TaskId);
 
                     cmd.ExecuteNonQuery();
 
-                    // Suppression des affectations existantes
-                    SqlCommand delCmd = new SqlCommand("DELETE FROM Task_Assignments WHERE TaskID = @TaskID", conn);
-                    delCmd.Parameters.AddWithValue("@TaskID", TaskId);
-                    delCmd.ExecuteNonQuery();
+                    // Mise à jour des affectations
+                    UpdateTaskAssignments(conn);
 
-                    // Réassignation
-                    foreach (var item in clbAssignedUsers.CheckedItems)
-                    {
-                        var user = item as ComboboxItem;
-                        SqlCommand assignCmd = new SqlCommand("INSERT INTO Task_Assignments (TaskID, UserID) VALUES (@TaskID, @UserID)", conn);
-                        assignCmd.Parameters.AddWithValue("@TaskID", TaskId);
-                        assignCmd.Parameters.AddWithValue("@UserID", user.Value);
-                        assignCmd.ExecuteNonQuery();
-                    }
+                    MessageBox.Show("La tâche a été mise à jour avec succès !",
+                                   "Succès",
+                                   MessageBoxButtons.OK,
+                                   MessageBoxIcon.Information);
 
-                    MessageBox.Show("Tâche mise à jour avec succès !");
                     this.DialogResult = DialogResult.OK;
                     this.Close();
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Erreur lors de la mise à jour : " + ex.Message);
+                MessageBox.Show("Erreur lors de la mise à jour de la tâche : " + ex.Message,
+                                "Erreur",
+                                MessageBoxButtons.OK,
+                                MessageBoxIcon.Error);
+            }
+        }
+
+        private void UpdateTaskAssignments(SqlConnection conn)
+        {
+            // Supprimer toutes les affectations existantes
+            string deleteQuery = "DELETE FROM Task_Assignments WHERE TaskID = @TaskID";
+            SqlCommand deleteCmd = new SqlCommand(deleteQuery, conn);
+            deleteCmd.Parameters.AddWithValue("@TaskID", TaskId);
+            deleteCmd.ExecuteNonQuery();
+
+            // Ajouter les nouvelles affectations
+            string insertQuery = "INSERT INTO Task_Assignments (TaskID, UserID) VALUES (@TaskID, @UserID)";
+
+            foreach (var item in clbAssignedUsers.CheckedItems)
+            {
+                var userItem = (ComboboxItem)item;
+                SqlCommand insertCmd = new SqlCommand(insertQuery, conn);
+                insertCmd.Parameters.AddWithValue("@TaskID", TaskId);
+                insertCmd.Parameters.AddWithValue("@UserID", userItem.Value);
+                insertCmd.ExecuteNonQuery();
             }
         }
 
         private void btnCancel_Click(object sender, EventArgs e)
         {
+            this.DialogResult = DialogResult.Cancel;
             this.Close();
+        }
+
+        private void buttonAnnuler_Click(object sender, EventArgs e)
+        {
+            this.Close();
+        }
+
+        private void clbAssignedUsers_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+        public class ComboboxItem
+        {
+            public string Text { get; set; }
+            public object Value { get; set; }
+
+            public ComboboxItem(string text, object value)
+            {
+                Text = text;
+                Value = value;
+            }
+
+            public override string ToString()
+            {
+                return Text;
+            }
+        }
+
+        private void buttonUpdateTask_Click(object sender, EventArgs e)
+        {
+            btnSave_Click(sender, e); // Réutilise la logique existante
+        }
+
+        private void FormEditTask_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }
